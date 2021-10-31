@@ -3,20 +3,20 @@
     color: #fff;
 }
 
-.box-error-message {
+.box-error {
     margin: 2em;
     max-width: 600px;
 }
 
 .error-code {
-    font-size: 20em;
+    font-size: 40vmin;
 }
 
 .error-title {
-    font-size: 3em;
+    font-size: 8vmin;
 }
 
 .error-message {
-    font-size: 1em;
-    line-height: 2em;
+    font-size: 2vmin;
+    line-height: 2.5vmin;
 }

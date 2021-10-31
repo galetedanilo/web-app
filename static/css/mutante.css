@@ -9,27 +9,31 @@
   max-width: 1024px;
 }
 
-.container-full {
-  width: 100%;
-  background-color: red;
-}
-
 .container-full-screan {
   height: 100vh;
 }
 
-.container-full-screan-center {
-  height:100vh;
+.row {
+  display: flex;
+}
+
+.content-center {
+  justify-content: center;
+}
+
+.content-right {
+  justify-content: right;
+}
+
+.content-leff {
+  justify-content: left;
+}
+
+.content-middle {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.row-content-center {
-  display: flex;
-  justify-content: center;
-}
-
 
 .text-center {
   text-align: center;
