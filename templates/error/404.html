@@ -9,16 +9,29 @@
     <link rel="stylesheet" href="/static/css/normalize.css">
     <link rel="stylesheet" href="/static/css/style.css">
 
-    <title>{{ title }}</title>
+    <title>{{ page_title }}</title>
 </head>
 <body>
-    <div class="container-center">
-        
-            <h1>404</h1>
-            <p>
-                Something went wrong. Looks like the page you are looking for is missing. Please continue to our homepage.
-            </p>
-        
+    <div class="container-full-screan-center bg-error">
+        <div class="container">
+            <div class="row-content-center">
+                <div class="col">
+                    <h1 class="error-code">{{ code }}</h1>
+                </div>
+            </div>
+            <div class="row-content-center">
+                <div class="col">
+                    <h2 class="error-title">{{ title }}</h2>
+                </div>
+            </div>
+            <div class="row-content-center">
+                <div class="col">
+                    <div class="box-error-message error-message text-center">
+                        <p>{{ message }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>       
     </div>
 </body>
 </html>

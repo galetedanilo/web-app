@@ -1,4 +1,36 @@
-.container-center {
+* {
+  box-sizing: border-box;
+  margin:0px;
+  padding: 0px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1024px;
+}
+
+.container-full {
+  width: 100%;
+  background-color: red;
+}
+
+.container-full-screan {
+  height: 100vh;
+}
+
+.container-full-screan-center {
+  height:100vh;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.row-content-center {
+  display: flex;
+  justify-content: center;
+}
+
+
+.text-center {
+  text-align: center;
 }

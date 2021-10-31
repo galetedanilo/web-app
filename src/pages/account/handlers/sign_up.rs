@@ -3,7 +3,7 @@ use tera::{Context, Tera};
 
 use validator::Validate;
 
-use crate::pages::account::forms::account_form::SignUpForm;
+use crate::pages::account::forms::new_account::NewAccountForm;
 
 pub async fn create_user_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -16,7 +16,7 @@ pub async fn create_user_form(template: web::Data<Tera>) -> Result<HttpResponse,
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn create_user(form: web::Form<SignUpForm>) -> Result<HttpResponse, Error> {
+pub async fn create_user(form: web::Form<NewAccountForm>) -> Result<HttpResponse, Error> {
 
     form.validate().map_err(error::ErrorBadRequest)?;
 

@@ -62,7 +62,10 @@ pub fn page_not_found<B>(res: dev::ServiceResponse<B>) -> Result<ErrorHandlerRes
 
             let mut context = Context::new();
             
-            context.insert("title", "Ooops 404 - Page Not Found");
+            context.insert("page_title", "Ooops 404 - Page Not Found");
+            context.insert("code", "404");
+            context.insert("title", "Ooops...");
+            context.insert("message", "Something went wrong. Looks like the page you are looking for is missing. Please continue to our homepage.");
 
             let render = tera.render("error/404.html", &context);
 

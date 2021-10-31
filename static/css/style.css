@@ -1,3 +1,22 @@
 .bg-error {
     background-color: #000;
+    color: #fff;
+}
+
+.box-error-message {
+    margin: 2em;
+    max-width: 600px;
+}
+
+.error-code {
+    font-size: 20em;
+}
+
+.error-title {
+    font-size: 3em;
+}
+
+.error-message {
+    font-size: 1em;
+    line-height: 2em;
 }
