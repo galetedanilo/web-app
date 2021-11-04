@@ -3,7 +3,7 @@ use tera::{Context, Tera};
 
 use validator::Validate;
 
-use crate::pages::account::forms::new_account::NewAccountForm;
+use crate::pages::account::forms::register::NewAccountForm;
 
 pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -11,7 +11,7 @@ pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<Http
 
     context.insert("page_title", "Create New Account");
 
-    let render = template.render("account/new_account.html", &context).map_err(error::ErrorInternalServerError)?;
+    let render = template.render("account/register.html", &context).map_err(error::ErrorInternalServerError)?;
 
     Ok(HttpResponse::Ok().body(render))
 }

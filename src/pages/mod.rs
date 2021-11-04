@@ -12,14 +12,14 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/account")
             .service(
-                web::resource("/sign_up")
+                web::resource("/register")
                     .route(web::get().to(account::handlers::register::register_new_account_form))
                     .route(web::post().to(account::handlers::register::register_new_account))
             )
             .service(
-                web::resource("/sign_in")
-                    .route(web::get().to(account::handlers::sign_in::login_user_form))
-                    .route(web::post().to(account::handlers::sign_in::login_user))
+                web::resource("/login")
+                    .route(web::get().to(account::handlers::login::login_user_form))
+                    .route(web::post().to(account::handlers::login::login_user))
             )
     );
 }

@@ -1,1 +1,1 @@
-pub mod new_account;
+pub mod register;

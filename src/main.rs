@@ -42,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(error_handlers)
             .route("/", web::get().to(pages::index))
             .configure(pages::routes)
+            .configure(api::routes)
             .service(Files::new("/static", "static")
                         .prefer_utf8(true)
                         .use_last_modified(true))
