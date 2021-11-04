@@ -3,6 +3,14 @@
     color: #fff;
 }
 
+.color-primary {
+    background-color: #0e1823;
+}
+
+.color-secondary {
+    background-color: #008080;
+}
+
 .box-error {
     margin: 2em;
     max-width: 600px;

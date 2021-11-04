@@ -13,8 +13,8 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
         web::scope("/account")
             .service(
                 web::resource("/sign_up")
-                    .route(web::get().to(account::handlers::sign_up::create_user_form))
-                    .route(web::post().to(account::handlers::sign_up::create_user))
+                    .route(web::get().to(account::handlers::register::register_new_account_form))
+                    .route(web::post().to(account::handlers::register::register_new_account))
             )
             .service(
                 web::resource("/sign_in")
