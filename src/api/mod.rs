@@ -9,7 +9,7 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
         web::scope("api/v1")
            .service(
                 web::resource("/account")
-                    .route(web::post().to(account::actions::register::register_new_account))
+                    .route(web::post().to(account::routes::register_new_account))
            )
     );
 }

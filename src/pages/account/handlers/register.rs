@@ -3,7 +3,7 @@ use tera::{Context, Tera};
 
 use validator::Validate;
 
-use crate::pages::account::forms::register::NewAccountForm;
+use crate::pages::account::forms::NewAccountForm;
 
 pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
