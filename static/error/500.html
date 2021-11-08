@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,10 +10,20 @@
     <link rel="stylesheet" href="/static/css/normalize.css">
     <link rel="stylesheet" href="/static/css/style.css">
 
+    <script src="/static/javascript/mutante.js" type="text/javascript"></script>
+
     <title>Ooops 500 - Internal Serve Error</title>
 </head>
-<body>
-    <div class="container-full-screan content-middle bg-error">
+
+<body class="color-primary">
+    <div class="container-fluid nav-fixed color-secondary">
+        <div class="container">
+            <nav>
+                static
+            </nav>
+        </div>
+    </div>
+    <div class="container-full-screen content-middle bg-error">
         <div class="container">
             <div class="row content-center">
                 <div class="col">
@@ -26,12 +37,14 @@
             </div>
             <div class="row content-center">
                 <div class="col">
-                    <div class="box-error error-message text-center">
-                        <p>Looks like something weird happened while processing your request. Please try again in a few moments.</p>
+                    <div class="error-box error-message text-center">
+                        <p>Looks like something weird happened while processing your request. Please try again in a few
+                            moments.</p>
                     </div>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 </body>
+
 </html>

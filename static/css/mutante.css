@@ -6,26 +6,30 @@
 
 .container {
   width: 100%;
-  max-width: 1024px;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-.container-full-screan {
+.container-fluid {
+  width: 100%;
+}
+
+.container-full-screen {
   height: 100vh;
 }
 
-.row {
-  display: flex;
-}
-
 .content-center {
+  display: flex;
   justify-content: center;
 }
 
 .content-right {
+  display: flex;
   justify-content: right;
 }
 
 .content-leff {
+  display: flex;
   justify-content: left;
 }
 
@@ -37,4 +41,10 @@
 
 .text-center {
   text-align: center;
+}
+
+.nav-fixed {
+  top: 0px;
+  z-index: 99;
+  position: fixed;
 }
