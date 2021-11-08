@@ -1,3 +1,3 @@
-mod register;
+mod payloads;
 
-pub use register::NewAccountForm;
+pub use payloads::NewAccountForm;
