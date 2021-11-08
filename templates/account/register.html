@@ -17,60 +17,56 @@
     <title>{{ page_title }}</title>
 </head>
 
-<body class="color-primary">
-    <div class="container-fluid nav-fixed color-secondary">
-        <div class="container">
-            <nav>
-                menu
-            </nav>
-        </div>
-    </div>  
+<body class="bg-primary">
+{% include "components/navbar.html" %} 
     <div class="container-full-screen content-middle">
         <div class="row">
-            <div class="form-account">
-                <div class="content-center">
-                    <h2 class="form-title">Create Your Account</h2>
+            <div class="col">
+                <div class="form-account">
+                    <div class="text-center">
+                        <h2 class="form-title">Create Your Account</h2>
+                    </div>
+                    <form action="/account/register" method="post">
+    
+                        <div class="form-label">
+                            <label>First Name:</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-user"></span>
+                            <input type="text" id="first-name" name="first-name" placeholder="your first name">
+                        </div>
+    
+                        <div class="form-label">
+                            <label>Last Name</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-user"></span>
+                            <input type="text" id="last-name" name="last-name" placeholder="your last name">
+                        </div>
+    
+                        <div class="form-label">
+                            <label>Email:</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-envelope"></span>
+                            <input type="text" id="email" name="email" placeholder="your_email@email.com">
+                        </div>
+    
+                        <div class="form-label">
+                            <label>Password:</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-lock"></span>
+                            <input type="password" id="password" name="password" placeholder="your account password">
+                        </div>
+                        <div class="form-error-messages">
+    
+                        </div>
+                        <div class="form-input">
+                            <input type="submit" value="Create Account">
+                        </div>
+                    </form>
                 </div>
-                <form action="/account/register" method="post">
-
-                    <div class="form-label">
-                        <label>First Name:</label>
-                    </div>
-                    <div class="form-input">
-                        <span class="fa fa-user"></span>
-                        <input type="text" id="first-name" name="first-name" placeholder="your first name">
-                    </div>
-
-                    <div class="form-label">
-                        <label>Last Name</label>
-                    </div>
-                    <div class="form-input">
-                        <span class="fa fa-user"></span>
-                        <input type="text" id="last-name" name="last-name" placeholder="your last name">
-                    </div>
-
-                    <div class="form-label">
-                        <label>Email:</label>
-                    </div>
-                    <div class="form-input">
-                        <span class="fa fa-envelope"></span>
-                        <input type="text" id="email" name="email" placeholder="your_email@email.com">
-                    </div>
-
-                    <div class="form-label">
-                        <label>Password:</label>
-                    </div>
-                    <div class="form-input">
-                        <span class="fa fa-lock"></span>
-                        <input type="password" id="password" name="password" placeholder="your account password">
-                    </div>
-                    <div class="form-error-messages">
-
-                    </div>
-                    <div class="form-input">
-                        <input type="submit" value="Create Account">
-                    </div>
-                </form>
             </div>
         </div>
     </div>
