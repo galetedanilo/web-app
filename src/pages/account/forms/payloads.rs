@@ -5,7 +5,7 @@ use validator::Validate;
 pub struct NewAccountForm {
     
     #[validate(length(min = 2, max = 20, message = "First name must be 2-20 characters long"))]
-    pub fist_name: String,
+    pub first_name: String,
 
     #[validate(length(min = 2, max = 20, message = "Last name must be 2-20 characters long"))]
     pub last_name: String,

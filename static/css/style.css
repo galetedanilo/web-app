@@ -47,8 +47,17 @@ nav {
 .form-label {
     font-size: .8rem;
     font-weight: bold;
-    padding-top: 15px;
+    padding-top: 5px;
     padding-bottom: 5px;
+}
+
+.form-label-error {
+    font-size: .7rem;
+    font-weight: bold;
+    color:#ff0000;
+    padding-top: 1px;
+    padding-left: 13%;
+    visibility: hidden;
 }
 
 .form-input {
