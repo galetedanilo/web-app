@@ -21,7 +21,6 @@
 
                 if(document.getElementById(checks[i]).value == "") {
                     document.getElementById(checks[i + 1]).style.visibility = "visible";
-                    document.getElementById(checks[i + 1]).focus();
                     controller = false;
                 }else {
                     document.getElementById(checks[i + 1]).style.visibility = "hidden";
@@ -90,6 +89,11 @@
                             <label>The password is required</label>
                         </div>
                         <div class="form-error-messages">
+                            {% block message_error %}
+                                {% for error in message_error %}
+                                <label>{{ error }}</label>
+                                {% endfor %}
+                            {% endblock message_error %}
                         </div>
                         <div class="form-input">
                             <input type="submit" value="Create Account">
