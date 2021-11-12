@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layouts/base_layout.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block title %} {{ title }} {% endblock title %}
 
-{% include "components/heads.html" %}
-
+{% block additional_head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+{% endblock additional_head %}
 
+
+{% block additional_script %}
     <script type="text/javascript">
 
         function validate() {
@@ -17,25 +15,26 @@
             var checks = ['first_name', 'first_name_required', 'last_name', 'last_name_required', 'email', 'email_required', 'password', 'password_required'];
             var controller = true;
 
-            for(var i = 0; i < checks.length; i = i + 2) {
+            for (var i = 0; i < checks.length; i = i + 2) {
 
-                if(document.getElementById(checks[i]).value == "") {
+                if (document.getElementById(checks[i]).value == "") {
                     document.getElementById(checks[i + 1]).style.visibility = "visible";
                     controller = false;
-                }else {
+                } else {
                     document.getElementById(checks[i + 1]).style.visibility = "hidden";
                 }
             }
 
-            return controller;            
+            return controller;
         }
     </script>
+{% endblock additional_script %}
 
-    <title>{{ page_title }}</title>
-</head>
+{% block header %}
+{% include "components/navbar.html" %}
+{% endblock header %}
 
-<body class="bg-primary">
-{% include "components/navbar.html" %} 
+{% block content %}
     <div class="container-full-screen content-middle">
         <div class="row">
             <div class="col">
@@ -44,7 +43,7 @@
                         <h2 class="form-title">Create Your Account</h2>
                     </div>
                     <form action="/account/register" name="register" onsubmit="return(validate());" method="post">
-    
+
                         <div class="form-label">
                             <label>First Name:</label>
                         </div>
@@ -55,7 +54,7 @@
                         <div class="form-label-error" id="first_name_required">
                             <label>The first name is required</label>
                         </div>
-    
+
                         <div class="form-label">
                             <label>Last Name</label>
                         </div>
@@ -66,7 +65,7 @@
                         <div class="form-label-error" id="last_name_required">
                             <label>The first name is required</label>
                         </div>
-    
+
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
@@ -77,7 +76,7 @@
                         <div class="form-label-error" id="email_required">
                             <lable>The email is required</lable>
                         </div>
-    
+
                         <div class="form-label">
                             <label>Password:</label>
                         </div>
@@ -89,11 +88,11 @@
                             <label>The password is required</label>
                         </div>
                         <div class="form-error-messages">
-                            {% block message_error %}
-                                {% for error in message_error %}
-                                <label>{{ error }}</label>
-                                {% endfor %}
-                            {% endblock message_error %}
+                            {% if message_error %}
+                            {% for error in message_error %}
+                            <label>{{ error }}</label>
+                            {% endfor %}
+                            {% endif %}
                         </div>
                         <div class="form-input">
                             <input type="submit" value="Create Account">
@@ -103,6 +102,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+{% endblock content %}
