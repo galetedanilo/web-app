@@ -1,0 +1,27 @@
+{% extends "layouts/main_layout.html" %}
+
+{% block title%}{{title}}{% endblock title %}
+
+{% block content %}
+    <div class="container-full-screen content-middle">
+        <div class="containern page-error">
+            <div class="row content-center">
+                <div class="col">
+                    <h1 class="error-code">{{code}}</h1>
+                </div>
+            </div>
+            <div class="row content-center">
+                <div class="col">
+                    <h2 class="error-title">{{error}}</h2>
+                </div>
+            </div>
+            <div class="row content-center">
+                <div class="col">
+                    <div class="error-box error-message text-center">
+                        <p>{{message}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content%}

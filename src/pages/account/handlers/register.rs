@@ -28,6 +28,9 @@ pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web
             let mut context = Context::new();
 
             context.insert("title", "Create New Account");
+            context.insert("first_name", &form.first_name);
+            context.insert("last_name", &form.last_name);
+            context.insert("email", &form.email);
 
             for (_key, value) in &err.field_errors() {
                 for ex in value.into_iter() {

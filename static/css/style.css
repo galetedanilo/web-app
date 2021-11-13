@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Red+Hat+Mono:wght@300&display=swap');
 
 body {
     background-color: #0e1823;
@@ -14,6 +14,11 @@ nav {
 
 .bg-secondary {
     background-color: #0b4d4d;
+}
+
+.page-error {
+    color: #fff;
+    font-family: 'Architects Daughter', cursive;
 }
 
 .error-box {
@@ -51,17 +56,8 @@ nav {
 .form-label {
     font-size: .8rem;
     font-weight: bold;
-    padding-top: 5px;
+    padding-top: 10px;
     padding-bottom: 5px;
-}
-
-.form-label-error {
-    font-size: .7rem;
-    font-weight: bold;
-    color:#ff0000;
-    padding-top: 1px;
-    padding-left: 13%;
-    visibility: hidden;
 }
 
 .form-input {
@@ -83,6 +79,7 @@ nav {
     background-color: #0b4d4d;
     
 }
+
 .form-input input {
     color: #222;
     width: 86%;
@@ -108,6 +105,14 @@ nav {
     background-color: #031d1d;
 }
 
-.form-error-messages {
+.form-message-error {
     padding:10px 0px;
+    font-size: .7rem;
+    font-weight: bold;
+    color:#ff0000;
+}
+
+.form-label-error {
+    width: 100%;
+    padding-bottom: 3px;
 }
