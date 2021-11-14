@@ -11,3 +11,5 @@ actix-files = "0.5.0"
 serde = { version = "1", features = ["derive"] }
 validator = { version = "0.14.0", features = ["derive"] }
 tera = "1"
+regex = "1"
+lazy_static = "1"

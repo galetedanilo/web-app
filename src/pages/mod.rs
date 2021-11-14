@@ -26,9 +26,9 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
 
 
     cfg.service(
-        web::scope("/")
+        web::scope("")
         .wrap(error_handlers)
-        .route("", web::get().to(index))
+        .route("/", web::get().to(index))
         .service(
             web::scope("/account")
             .service(

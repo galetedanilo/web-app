@@ -2,8 +2,10 @@ use actix_web::{App, HttpServer};
 use actix_files::Files;
 use tera::Tera;
 
-mod pages;
 mod api;
+mod models;
+mod pages;
+mod utils;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
