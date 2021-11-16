@@ -8,7 +8,7 @@ use crate::utils::{
     helper_upper_case_validate
 };
 
-#[derive(Validate, Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Validate)]
 pub struct NewAccountForm {
     
     #[validate(length(min = 2, max = 20, message = "The first name must be 2-20 characters long"))]
@@ -21,9 +21,32 @@ pub struct NewAccountForm {
     pub email: String,
 
     #[validate(length(min = 8, max = 12, message = "The password must be 8-12 characters long"))]
-    #[validate(custom(function = "helper_digit_validate", message = "Password must contain at least one digit" ))]
+    #[validate(custom(function = "helper_digit_validate", message = "Password must contain at least one number" ))]
     #[validate(custom(function = "helper_lower_case_validate", message = "Password must contain at least one lower character"))]
     #[validate(custom(function = "helper_no_whitespace_validate", message = "Password must not contain whitespaces"))]
     #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper charcter"))]
+    pub password: String,
+}
+
+#[derive(Serialize, Deserialize, Validate)]
+pub struct UserLogin {
+    
+    #[validate(email(message = "Is not a valid email address"))]
+    pub email: String,
+
+    #[validate(required, length(min = 8, max = 12, message = "The password must be 8-12 characters long"))]
+    pub password: Option<String>,
+}
+
+#[derive(Serialize, Deserialize, Validate)]
+pub struct UserReset {
+
+    #[validate(email(message = "Is not a valid email address"))]
+    pub email: String,
+}
+
+#[derive(Serialize, Deserialize, Validate)]
+pub struct ResetPassword {
+
     pub password: String,
 }

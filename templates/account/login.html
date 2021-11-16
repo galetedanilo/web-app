@@ -14,23 +14,9 @@
             <div class="col">
                 <div class="form-account">
                     <div class="text-center">
-                        <h2 class="form-title">Create Your Account</h2>
+                        <h2 class="form-title">Log in Your Account</h2>
                     </div>
-                    <form action="/account/register" name="register" method="post">
-                        <div class="form-label">
-                            <label>First Name:</label>
-                        </div>
-                        <div class="form-input">
-                            <span class="fa fa-user"></span>
-                            <input type="text" name="first_name" value="{% if first_name %}{{first_name}}{% endif %}"  placeholder="your first name" required>
-                        </div>
-                        <div class="form-label">
-                            <label>Last Name</label>
-                        </div>
-                        <div class="form-input">
-                            <span class="fa fa-user"></span>
-                            <input type="text" name="last_name" value="{% if last_name %}{{last_name}}{% endif %}" placeholder="your last name" required>
-                        </div>
+                    <form action="/account/login" name="login" method="post">
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
@@ -45,6 +31,9 @@
                             <span class="fa fa-lock"></span>
                             <input type="password" name="password" maxlength="12" placeholder="your account password" required>
                         </div>
+                        <div class="form-forgot">
+                            <a href="/account/password/reset">I forgot my password.</a>
+                        </div>
                         <div class="form-message-error">
                         {% if message_error %}
                             {% for error in message_error %}
@@ -55,9 +44,12 @@
                         {% endif %}
                         </div>
                         <div class="form-input">
-                            <input type="submit" value="Create Account">
+                            <input type="submit" value="Log In">
                         </div>
                     </form>
+                    <div class="form-register-link">
+                            Is it new? <a href="/account/register">Sing Up</a>
+                    </div>
                 </div>
             </div>
         </div>

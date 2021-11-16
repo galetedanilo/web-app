@@ -3,6 +3,8 @@ use tera::{Context, Tera};
 
 use validator::Validate;
 
+use crate::utils::helper_get_messages;
+
 use crate::models::NewAccountForm;
 
 pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
@@ -24,7 +26,6 @@ pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web
         ),
         Err(err) => {
             
-            let mut err_resp: Vec<String> = Vec::new();
             let mut context = Context::new();
 
             context.insert("title", "Create New Account");
@@ -32,11 +33,7 @@ pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web
             context.insert("last_name", &form.last_name);
             context.insert("email", &form.email);
 
-            for (_key, value) in &err.field_errors() {
-                for ex in value.into_iter() {
-                    err_resp.push(ex.to_string());
-                }
-            }
+            let err_resp = helper_get_messages(err);
 
             context.insert("message_error", &err_resp);
 

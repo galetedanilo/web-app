@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use validator::ValidationError;
+use validator::{ValidationError, ValidationErrors};
 use regex::Regex;
 
 pub fn helper_digit_validate(text: &str) -> Result<(), ValidationError> {
@@ -52,4 +52,17 @@ pub fn helper_upper_case_validate(text: &str) -> Result<(), ValidationError> {
     }
 
     Err(ValidationError::new("There are no upper case"))
+}
+
+pub fn helper_get_messages(err: ValidationErrors) -> Vec<String> {
+
+    let mut err_resp: Vec<String> = Vec::new();
+
+    for (_key, value) in &err.field_errors() {
+        for ex in value.into_iter() {
+            err_resp.push(ex.to_string());
+        }
+    }
+
+    err_resp
 }

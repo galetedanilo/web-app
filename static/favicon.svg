@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.1.1 (eb90963e84, 2021-10-02)"
-   sodipodi:docname="favicon-32x32.svg"
+   sodipodi:docname="favicon.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@
      inkscape:document-units="px"
      showgrid="false"
      inkscape:zoom="26.375"
-     inkscape:cx="17.990521"
+     inkscape:cx="10.293839"
      inkscape:cy="14.50237"
      inkscape:window-width="1848"
      inkscape:window-height="1016"
@@ -38,39 +38,35 @@
      inkscape:label="Camada 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="fill:#008080;stroke-width:0.578822"
-       id="rect53"
-       width="26.71987"
-       height="1.2416468"
-       x="4.4828243"
-       y="26.456804"
-       ry="0.33729041" />
-    <rect
+    <ellipse
        style="fill:#008080"
-       id="rect55"
-       width="30.383549"
-       height="1.2968056"
-       x="0.90751815"
-       y="28.595461"
-       ry="0.64840281" />
+       id="path375"
+       cx="10.843316"
+       cy="13.279742"
+       rx="7.7649136"
+       ry="11.690642" />
     <rect
-       style="fill:#008080"
-       id="rect241"
-       width="19.471451"
-       height="1.1610564"
-       x="11.594002"
-       y="24.36376"
+       style="fill:#aa0000"
+       id="rect501"
+       width="18.622885"
+       height="4.3188453"
+       x="11.508234"
+       y="18.470671"
        ry="0.33728999" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:12px;line-height:1.25;font-family:sans-serif;fill:#d40000;fill-opacity:1;stroke:none"
-       x="-0.080359146"
-       y="16.798864"
-       id="text1205"><tspan
-         sodipodi:role="line"
-         id="tspan1203"
-         x="-0.080359146"
-         y="16.798864">Open</tspan></text>
+    <ellipse
+       style="fill:#00ffff"
+       id="path549"
+       cx="25.250364"
+       cy="7.6508837"
+       rx="6.1229916"
+       ry="5.8073258" />
+    <rect
+       style="fill:#008080;stroke-width:0.950487"
+       id="rect671"
+       width="30.849573"
+       height="1.873"
+       x="0.611"
+       y="26.716877"
+       ry="0.30471653" />
   </g>
 </svg>

@@ -1,0 +1,22 @@
+.error-format {
+    color: #fff;
+    font-family: cursive;
+}
+
+.error-box {
+    margin: 2em;
+    max-width: 600px;
+}
+
+.error-code {
+    font-size: 40vmin;
+}
+
+.error-title {
+    font-size: 8vmin;
+}
+
+.error-message {
+    font-size: 3vmin;
+    line-height: 2.5vmin;
+}

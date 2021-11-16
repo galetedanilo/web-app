@@ -14,36 +14,18 @@
             <div class="col">
                 <div class="form-account">
                     <div class="text-center">
-                        <h2 class="form-title">Create Your Account</h2>
+                        <h2 class="form-title">Reset Password</h2>
                     </div>
-                    <form action="/account/register" name="register" method="post">
-                        <div class="form-label">
-                            <label>First Name:</label>
-                        </div>
-                        <div class="form-input">
-                            <span class="fa fa-user"></span>
-                            <input type="text" name="first_name" value="{% if first_name %}{{first_name}}{% endif %}"  placeholder="your first name" required>
-                        </div>
-                        <div class="form-label">
-                            <label>Last Name</label>
-                        </div>
-                        <div class="form-input">
-                            <span class="fa fa-user"></span>
-                            <input type="text" name="last_name" value="{% if last_name %}{{last_name}}{% endif %}" placeholder="your last name" required>
-                        </div>
+                    <div class="form-message">
+                        <p>Enter your email address below and we'll send you a link to reset your password.</p>
+                    </div>
+                    <form action="/account/password/reset" name="reset" method="post">
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-envelope"></span>
                             <input type="email" name="email" value="{% if email %}{{email}}{% endif %}" placeholder="your_email@email.com" required>
-                        </div>
-                        <div class="form-label">
-                            <label>Password:</label>
-                        </div>
-                        <div class="form-input">
-                            <span class="fa fa-lock"></span>
-                            <input type="password" name="password" maxlength="12" placeholder="your account password" required>
                         </div>
                         <div class="form-message-error">
                         {% if message_error %}
@@ -55,7 +37,7 @@
                         {% endif %}
                         </div>
                         <div class="form-input">
-                            <input type="submit" value="Create Account">
+                            <input type="submit" value="Reset Password">
                         </div>
                     </form>
                 </div>

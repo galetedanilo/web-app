@@ -1,0 +1,19 @@
+body {
+    background-color: #0e1823;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav {
+    height: 70px;
+}
+
+.bg-primary {
+    background-color: #0e1823;
+}
+
+.bg-secondary {
+    background-color: #0b4d4d;
+}

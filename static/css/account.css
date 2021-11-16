@@ -1,47 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Red+Hat+Mono:wght@300&display=swap');
-
-body {
-    background-color: #0e1823;
-}
-
-nav {
-    height: 70px;
-}
-
-.bg-primary {
-    background-color: #0e1823;
-}
-
-.bg-secondary {
-    background-color: #0b4d4d;
-}
-
-.page-error {
-    color: #fff;
-    font-family: 'Architects Daughter', cursive;
-}
-
-.error-box {
-    margin: 2em;
-    max-width: 600px;
-}
-
-.error-code {
-    font-size: 40vmin;
-}
-
-.error-title {
-    font-size: 8vmin;
-}
-
-.error-message {
-    font-size: 2vmin;
-    line-height: 2.5vmin;
-}
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Mono:wght@300&display=swap');
 
 .form-account {
     width: 420px;
-    padding: 40px 40px;
+    padding: 60px 40px;
     border-radius: 2%;
     box-shadow: -1px 4px 28px 0px rgba(172, 54, 54, 0.75);
     background-color: #fff;
@@ -50,7 +11,7 @@ nav {
 }
 
 .form-title {
-    padding: 5px 0px 15px 0px;
+    padding: 0px 0px 15px 0px;
 }
 
 .form-label {
@@ -97,7 +58,7 @@ nav {
     height: 100%;
     background-color: #0b4d4d;
     color: #fff;
-    font-size: bold;
+    font-weight: bold;
     cursor: pointer;
 }
 
@@ -105,14 +66,41 @@ nav {
     background-color: #031d1d;
 }
 
+.form-message {
+    padding: 10px 0px;
+    font-size: 0.8rem;
+}
+
 .form-message-error {
     padding:10px 0px;
     font-size: .7rem;
-    font-weight: bold;
-    color:#ff0000;
 }
 
 .form-label-error {
     width: 100%;
+    font-weight: bold;
+    color:#ff0000;
     padding-bottom: 3px;
+}
+
+.form-forgot {
+    width: 100%;
+    height: 20px;
+}
+
+.form-forgot a {
+    font-size: .8rem;
+    font-weight: bold;
+    color:#031d1d;
+    float: right;
+    padding: 5px 0px;
+}
+
+.form-register-link {
+    padding: 15px 0px;
+}
+
+.form-register-link a {
+    color: #0b4d4d;
+    font-weight: bold;
 }

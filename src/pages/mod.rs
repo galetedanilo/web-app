@@ -41,6 +41,11 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
                     .route(web::get().to(account::handlers::login_user_form))
                     .route(web::post().to(account::handlers::login_user))
             )
+            .service(
+                web::resource("/password/reset")
+                    .route(web::get().to(account::handlers::reset_password_form))
+                    .route(web::post().to(account::handlers::reset_password))
+            )
         )
     );
 }

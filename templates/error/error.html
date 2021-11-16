@@ -2,9 +2,13 @@
 
 {% block title%}{{title}}{% endblock title %}
 
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/error.css">
+{% endblock additional_css %}
+
 {% block content %}
     <div class="container-full-screen content-middle">
-        <div class="containern page-error">
+        <div class="container error-format">
             <div class="row content-center">
                 <div class="col">
                     <h1 class="error-code">{{code}}</h1>
