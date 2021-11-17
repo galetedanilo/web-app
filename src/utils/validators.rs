@@ -2,17 +2,16 @@ use lazy_static::lazy_static;
 use validator::{ValidationError, ValidationErrors};
 use regex::Regex;
 
-pub fn helper_digit_validate(text: &str) -> Result<(), ValidationError> {
+pub fn helper_is_number_validate(text: &str) -> Result<(), ValidationError> {
 
     lazy_static! {
         static ref DIGIT: Regex = Regex::new(r"[[:digit:]]").unwrap();
     }
 
-    if DIGIT.is_match(text) {
-        return Ok(());
-    }
-
-    Err(ValidationError::new("There are no numbers"))
+    match DIGIT.is_match(text) {
+        true => Ok(()),
+        false => Err(ValidationError::new("There are no numbers"))
+    }  
 }
 
 pub fn helper_no_whitespace_validate(text: &str) -> Result<(), ValidationError> {
@@ -21,11 +20,10 @@ pub fn helper_no_whitespace_validate(text: &str) -> Result<(), ValidationError> 
         static ref WHITESPACE: Regex = Regex::new(r"[[:space:]]").unwrap();
     }
 
-    if WHITESPACE.is_match(text) {
-        return Err(ValidationError::new("There are blank spaces"));
-    }
-
-    Ok(())    
+    match WHITESPACE.is_match(text) {
+        true => Err(ValidationError::new("There are blank spaces")),
+        false => Ok(()),
+    }      
 }
 
 pub fn helper_lower_case_validate(text: &str) -> Result<(), ValidationError> {
@@ -34,11 +32,10 @@ pub fn helper_lower_case_validate(text: &str) -> Result<(), ValidationError> {
         static ref LOWER: Regex = Regex::new(r"[[:lower:]]").unwrap();
     }
 
-    if LOWER.is_match(text) {
-        return Ok(());
-    }
-
-    Err(ValidationError::new("There are no lower case"))
+    match LOWER.is_match(text) {
+        true => Ok(()),
+        false => Err(ValidationError::new("There are no lower case")),
+    }    
 }
 
 pub fn helper_upper_case_validate(text: &str) -> Result<(), ValidationError> {
@@ -47,11 +44,10 @@ pub fn helper_upper_case_validate(text: &str) -> Result<(), ValidationError> {
         static ref UPPER: Regex = Regex::new(r"[[:upper:]]").unwrap();
     }
 
-    if UPPER.is_match(text) {
-        return Ok(());
+    match UPPER.is_match(text) {
+        true => Ok(()),
+        false => Err(ValidationError::new("There are no upper case")),
     }
-
-    Err(ValidationError::new("There are no upper case"))
 }
 
 pub fn helper_get_messages(err: ValidationErrors) -> Vec<String> {

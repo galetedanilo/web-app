@@ -2,7 +2,7 @@ use serde::{Serialize, Deserialize};
 use validator::Validate;
 
 use crate::utils::{
-    helper_digit_validate,
+    helper_is_number_validate,
     helper_lower_case_validate,
     helper_no_whitespace_validate,
     helper_upper_case_validate
@@ -21,10 +21,10 @@ pub struct NewAccountForm {
     pub email: String,
 
     #[validate(length(min = 8, max = 12, message = "The password must be 8-12 characters long"))]
-    #[validate(custom(function = "helper_digit_validate", message = "Password must contain at least one number" ))]
+    #[validate(custom(function = "helper_is_number_validate", message = "Password must contain at least one number" ))]
     #[validate(custom(function = "helper_lower_case_validate", message = "Password must contain at least one lower character"))]
     #[validate(custom(function = "helper_no_whitespace_validate", message = "Password must not contain whitespaces"))]
-    #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper charcter"))]
+    #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper character"))]
     pub password: String,
 }
 
