@@ -1,5 +1,6 @@
 mod user;
 
+pub use user::LoginForm;
 pub use user::NewAccountForm;
-pub use user::UserLogin;
-pub use user::UserReset;
+pub use user::NewPasswordForm;
+pub use user::PasswordRequestForm;

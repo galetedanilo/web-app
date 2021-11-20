@@ -5,7 +5,7 @@ use validator::Validate;
 
 use crate::utils::helper_get_messages;
 
-use crate::models::UserLogin;
+use crate::models::LoginForm;
 
 pub async fn login_user_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -18,7 +18,7 @@ pub async fn login_user_form(template: web::Data<Tera>) -> Result<HttpResponse, 
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn login_user(form: web::Form<UserLogin>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn login_user(form: web::Form<LoginForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     match form.validate() {
         Ok(_) => Ok(

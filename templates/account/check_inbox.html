@@ -1,0 +1,28 @@
+{% extends "layouts/main_layout.html" %}
+
+{% block title%}{{title}}{% endblock title %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="/static/css/account.css">
+{% endblock additional_css %}
+
+{% block content %}
+    <div class="container-full-screen content-middle">
+        <div class="row">
+            <div class="col">
+                <div class="form-account">
+                    <div class="text-center">
+                        <h2 class="form-title">Reset Password</h2>
+                    </div>
+                    <div class="form-message">
+                        <p>Check your inbox for the next steps. If you don't receive an email, and it's not in your spam folder 
+                            this could mean you signed up with a different address.</p>
+                    </div>
+                    <div class="form-link">
+                        Go to: <a href="/account/login">Log In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -43,8 +43,13 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
             )
             .service(
                 web::resource("/password/reset")
-                    .route(web::get().to(account::handlers::reset_password_form))
-                    .route(web::post().to(account::handlers::reset_password))
+                    .route(web::get().to(account::handlers::password_reset_form))
+                    .route(web::post().to(account::handlers::password_reset_request))
+            )
+            .service(
+                web::resource("/password/setting/{token}")
+                    .route(web::get().to(account::handlers::password_setting_form))
+                    .route(web::post().to(account::handlers::password_setting))
             )
         )
     );

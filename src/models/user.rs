@@ -29,7 +29,7 @@ pub struct NewAccountForm {
 }
 
 #[derive(Serialize, Deserialize, Validate)]
-pub struct UserLogin {
+pub struct LoginForm {
     
     #[validate(email(message = "Is not a valid email address"))]
     pub email: String,
@@ -39,14 +39,19 @@ pub struct UserLogin {
 }
 
 #[derive(Serialize, Deserialize, Validate)]
-pub struct UserReset {
+pub struct PasswordRequestForm {
 
     #[validate(email(message = "Is not a valid email address"))]
     pub email: String,
 }
 
 #[derive(Serialize, Deserialize, Validate)]
-pub struct ResetPassword {
+pub struct NewPasswordForm {
 
+    #[validate(length(min = 8, max = 12, message = "The password must be 8-12 characters long"))]
+    #[validate(custom(function = "helper_is_number_validate", message = "Password must contain at least one number" ))]
+    #[validate(custom(function = "helper_lower_case_validate", message = "Password must contain at least one lower character"))]
+    #[validate(custom(function = "helper_no_whitespace_validate", message = "Password must not contain whitespaces"))]
+    #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper character"))]
     pub password: String,
 }
