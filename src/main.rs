@@ -5,6 +5,7 @@ use tera::Tera;
 mod api;
 mod models;
 mod pages;
+mod services;
 mod utils;
 
 #[actix_web::main]
