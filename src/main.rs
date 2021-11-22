@@ -7,6 +7,7 @@ mod models;
 mod pages;
 mod services;
 mod utils;
+mod vars;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -33,5 +34,7 @@ async fn main() -> std::io::Result<()> {
             .configure(pages::routes)
     };
     
-    HttpServer::new(app).bind("127.0.0.1:8000")?.run().await
+    HttpServer::new(app).bind(
+        format!("{}:{}", vars::get_domain(), vars::get_port())
+    )?.run().await
 }

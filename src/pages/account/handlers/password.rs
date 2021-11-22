@@ -1,21 +1,20 @@
 use actix_web::{error, web, HttpResponse, HttpRequest, Error};
 use tera::{Tera, Context};
 
-use uuid::Uuid;
 use validator::Validate;
 
+use crate::vars;
+
 use crate::utils::helper_get_messages;
-use crate::utils::helper_create_email_reset;
 
 use crate::models::{PasswordRequestForm, NewPasswordForm};
-
-use crate::services::send_email;
 
 pub async fn password_reset_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
     context.insert("title", "Reset Password");
+    context.insert("domain_url", &vars::get_domain_url());
 
     let render = template.render("account/password.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -30,11 +29,8 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
     match form.validate() {
         Ok(_) => {
 
-            let uuid = Uuid::new_v4();
-            
-            let body = helper_create_email_reset(&uuid.to_string() , "Danilo Galete");
-
             context.insert("title", "Check Inbox");
+            context.insert("domain_url", &vars::get_domain_url());
 
             let render = template.render("account/check_inbox.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -43,6 +39,7 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
         Err(err) => {
 
             context.insert("title", "Reset Password");
+            context.insert("domain_url", &vars::get_domain_url());
 
             let err_resp = helper_get_messages(err);
 

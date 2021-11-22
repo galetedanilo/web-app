@@ -1,7 +1,7 @@
 use actix_web::middleware::errhandlers::ErrorHandlers;
 use actix_web::{http, web, HttpResponse, Error};
 
-mod account;
+pub mod account;
 mod error;
 
 pub fn routes(cfg: &mut web::ServiceConfig) {

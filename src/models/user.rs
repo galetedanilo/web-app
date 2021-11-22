@@ -8,6 +8,33 @@ use crate::utils::{
     helper_upper_case_validate
 };
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NewUser {
+    pub email: String,
+    pub first_name: String,
+    pub last_name: String,
+    pub password: String,
+    pub created_at: chrono::NaiveDateTime,
+    pub update_at: chrono::NaiveDateTime,
+    pub enabled: bool,
+}
+
+impl NewUser {
+
+    pub fn from(email: String, first_name: String, last_name: String, password: String) -> Self {
+
+        NewUser{
+            email,
+            first_name,
+            last_name,
+            password,
+            created_at: chrono::Local::now().naive_local(),
+            update_at: chrono::Local::now().naive_local(),
+            enabled: false
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Validate)]
 pub struct NewAccountForm {
     

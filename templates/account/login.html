@@ -16,7 +16,7 @@
                     <div class="text-center">
                         <h2 class="form-title">Log in Your Account</h2>
                     </div>
-                    <form action="/account/login" name="login" method="post">
+                    <form action="{{domain_url}}/account/login" name="login" method="post">
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
@@ -32,7 +32,7 @@
                             <input type="password" name="password" maxlength="12" placeholder="your account password" required>
                         </div>
                         <div class="form-forgot">
-                            <a href="/account/password/reset">I forgot my password.</a>
+                            <a href="{{domain_url}}/account/password/reset">I forgot my password.</a>
                         </div>
                         <div class="form-message-error">
                         {% if message_error %}
@@ -48,7 +48,7 @@
                         </div>
                     </form>
                     <div class="form-link">
-                            Is it new? <a href="/account/register">Sing Up</a>
+                            Is it new? <a href="{{domain_url}}/account/register">Sing Up</a>
                     </div>
                 </div>
             </div>

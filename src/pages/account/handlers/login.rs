@@ -3,6 +3,8 @@ use tera::{Context, Tera};
 
 use validator::Validate;
 
+use crate::vars;
+
 use crate::utils::helper_get_messages;
 
 use crate::models::LoginForm;
@@ -12,6 +14,7 @@ pub async fn login_user_form(template: web::Data<Tera>) -> Result<HttpResponse, 
     let mut context = Context::new();
 
     context.insert("title", "Log In Your Account");
+    context.insert("domain_url", &vars::get_domain_url());
 
     let render = template.render("account/login.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -29,6 +32,7 @@ pub async fn login_user(form: web::Form<LoginForm>, template: web::Data<Tera>) -
             let mut context = Context::new();
             
             context.insert("title", "Log In Your Acount");
+            context.insert("domain_url", &vars::get_domain_url());
             context.insert("email", &form.email);
 
             let err_resp = helper_get_messages(err);
