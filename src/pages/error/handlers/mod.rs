@@ -3,6 +3,8 @@ use actix_web::middleware::errhandlers::ErrorHandlerResponse;
 use actix_files::NamedFile;
 use tera::{Context, Tera};
 
+use crate::vars;
+
 pub fn bad_request<B>(res: dev::ServiceResponse<B>) -> Result<ErrorHandlerResponse<B>> {
 
     render_page_error(
@@ -59,6 +61,7 @@ fn render_page_error<B>(res: dev::ServiceResponse<B>, code: u16, title: &str, er
             let mut context = Context::new();
                 
             context.insert("title", title);
+            context.insert("domain_url", &vars::get_domain_url());
             context.insert("code", res.status().as_str());
             context.insert("error", error);
             context.insert("message", message);

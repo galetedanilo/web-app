@@ -24,18 +24,24 @@ pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<Http
 
 pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_domain_url());
+
     match form.validate() {
         Ok(_) => {
             register_new_user_action(form.into_inner());
 
-            Ok(HttpResponse::Ok().body("Cadastrar"))
+            context.insert("title", "Confirm Your Account");
+            context.insert("email", "your_account@email.com");
+
+            let render = template.render("account/activate.html", &context).map_err(error::ErrorInternalServerError)?;
+
+            Ok(HttpResponse::Created().body(render))
         },
         Err(err) => {
-            
-            let mut context = Context::new();
 
             context.insert("title", "Create New Account");
-            context.insert("domain_url", &vars::get_domain_url());
             context.insert("first_name", &form.first_name);
             context.insert("last_name", &form.last_name);
             context.insert("email", &form.email);

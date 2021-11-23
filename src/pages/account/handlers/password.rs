@@ -26,11 +26,12 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
 
     let mut context = Context::new();
 
+    context.insert("domain_url", &vars::get_domain_url());
+
     match form.validate() {
         Ok(_) => {
 
             context.insert("title", "Check Inbox");
-            context.insert("domain_url", &vars::get_domain_url());
 
             let render = template.render("account/check_inbox.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -39,7 +40,6 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
         Err(err) => {
 
             context.insert("title", "Reset Password");
-            context.insert("domain_url", &vars::get_domain_url());
 
             let err_resp = helper_get_messages(err);
 

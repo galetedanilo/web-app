@@ -35,6 +35,22 @@ impl NewUser {
     }
 }
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct LoginUser {
+    pub email: String,
+    pub password: String
+}
+
+impl LoginUser {
+
+    pub fn from(email: String, password: String) -> LoginUser {
+        LoginUser {
+            email,
+            password
+        }
+    }
+}
+
 #[derive(Serialize, Deserialize, Validate)]
 pub struct NewAccountForm {
     
