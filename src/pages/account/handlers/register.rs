@@ -6,7 +6,7 @@ use validator::Validate;
 use crate::vars;
 
 use crate::pages::account::actions::{register_new_user_action};
-use crate::utils::helper_get_messages;
+use crate::utils::helper_get_error_messages_validate;
 
 use crate::models::NewAccountForm;
 
@@ -46,7 +46,7 @@ pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web
             context.insert("last_name", &form.last_name);
             context.insert("email", &form.email);
 
-            let err_resp = helper_get_messages(err);
+            let err_resp = helper_get_error_messages_validate(err);
 
             context.insert("message_error", &err_resp);
 

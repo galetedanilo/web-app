@@ -5,7 +5,7 @@ use validator::Validate;
 
 use crate::vars;
 
-use crate::utils::helper_get_messages;
+use crate::utils::helper_get_error_messages_validate;
 
 use crate::models::{PasswordRequestForm, NewPasswordForm};
 
@@ -16,7 +16,7 @@ pub async fn password_reset_form(template: web::Data<Tera>) -> Result<HttpRespon
     context.insert("title", "Reset Password");
     context.insert("domain_url", &vars::get_domain_url());
 
-    let render = template.render("account/password.html", &context).map_err(error::ErrorInternalServerError)?;
+    let render = template.render("account/reset.html", &context).map_err(error::ErrorInternalServerError)?;
 
     Ok(HttpResponse::Ok().body(render))
 }
@@ -41,11 +41,11 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
 
             context.insert("title", "Reset Password");
 
-            let err_resp = helper_get_messages(err);
+            let err_resp = helper_get_error_messages_validate(err);
 
             context.insert("message_error", &err_resp);
 
-            let render = template.render("account/password.html", &context).map_err(error::ErrorInternalServerError)?;
+            let render = template.render("account/reset.html", &context).map_err(error::ErrorInternalServerError)?;
 
             Ok(HttpResponse::Ok().body(render))
         }

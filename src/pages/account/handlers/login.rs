@@ -5,7 +5,7 @@ use validator::Validate;
 
 use crate::vars;
 
-use crate::utils::helper_get_messages;
+use crate::utils::helper_get_error_messages_validate;
 
 use crate::models::LoginForm;
 
@@ -35,7 +35,7 @@ pub async fn login_user(form: web::Form<LoginForm>, template: web::Data<Tera>) -
             context.insert("domain_url", &vars::get_domain_url());
             context.insert("email", &form.email);
 
-            let err_resp = helper_get_messages(err);
+            let err_resp = helper_get_error_messages_validate(err);
 
             context.insert("message_error", &err_resp);
 

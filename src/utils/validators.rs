@@ -50,7 +50,7 @@ pub fn helper_upper_case_validate(text: &str) -> Result<(), ValidationError> {
     }
 }
 
-pub fn helper_get_messages(err: ValidationErrors) -> Vec<String> {
+pub fn helper_get_error_messages_validate(err: ValidationErrors) -> Vec<String> {
 
     let mut err_resp: Vec<String> = Vec::new();
 
