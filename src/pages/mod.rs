@@ -1,7 +1,7 @@
 use actix_web::middleware::errhandlers::ErrorHandlers;
 use actix_web::{http, web, HttpResponse, Error};
 
-pub mod account;
+mod account;
 mod error;
 
 pub fn routes(cfg: &mut web::ServiceConfig) {
@@ -33,23 +33,23 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
             web::scope("/account")
             .service(
                 web::resource("/register")
-                    .route(web::get().to(account::handlers::register_new_account_form))
-                    .route(web::post().to(account::handlers::register_new_account))
+                    .route(web::get().to(account::handlers::register_new_account_form_handler))
+                    .route(web::post().to(account::handlers::register_new_account_handler))
             )
             .service(
                 web::resource("/login")
-                    .route(web::get().to(account::handlers::login_user_form))
-                    .route(web::post().to(account::handlers::login_user))
+                    .route(web::get().to(account::handlers::login_user_form_handler))
+                    .route(web::post().to(account::handlers::login_user_handler))
             )
             .service(
                 web::resource("/password/reset")
-                    .route(web::get().to(account::handlers::password_reset_form))
-                    .route(web::post().to(account::handlers::password_reset_request))
+                    .route(web::get().to(account::handlers::password_reset_form_handler))
+                    .route(web::post().to(account::handlers::password_reset_handler))
             )
             .service(
-                web::resource("/password/setting/{token}")
-                    .route(web::get().to(account::handlers::password_setting_form))
-                    .route(web::post().to(account::handlers::password_setting))
+                web::resource("/password/reset/{token}")
+                    .route(web::get().to(account::handlers::password_change_form_handler))
+                    .route(web::post().to(account::handlers::password_change_handler))
             )
         )
     );

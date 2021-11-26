@@ -7,11 +7,11 @@ use crate::utils::{
     helper_activate_account_email
 };
 
-use crate::models::{NewUser, NewAccountForm};
+use crate::models::account::{NewAccount, NewAccountForm};
 
 pub fn register_new_user_action(form: NewAccountForm) {
    
-    let user = NewUser::from(
+    let user = NewAccount::from(
         form.email,
         form.first_name, 
         form.last_name,
@@ -20,7 +20,6 @@ pub fn register_new_user_action(form: NewAccountForm) {
 
     let token = Uuid::new_v4();
     
-
     let email = helper_activate_account_email(
         &vars::get_app_name(),
         &vars::get_domain_url(),

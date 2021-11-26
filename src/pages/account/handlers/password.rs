@@ -7,9 +7,9 @@ use crate::vars;
 
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::models::{PasswordRequestForm, NewPasswordForm};
+use crate::models::account::{PasswordForm, NewPasswordForm};
 
-pub async fn password_reset_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn password_reset_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -22,7 +22,7 @@ pub async fn password_reset_form(template: web::Data<Tera>) -> Result<HttpRespon
 }
 
 
-pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn password_reset_handler(form: web::Form<PasswordForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -52,11 +52,11 @@ pub async fn password_reset_request(form: web::Form<PasswordRequestForm>, templa
     }
 }
 
-pub async fn password_setting_form(req: HttpRequest, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn password_change_form_handler(req: HttpRequest, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     Ok(HttpResponse::Ok().body("Vai Brasil"))
 }
 
-pub async fn password_setting(form: web::Form<NewPasswordForm>, req: HttpRequest, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn password_change_handler(form: web::Form<NewPasswordForm>, req: HttpRequest, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().body("Deu"))
 }

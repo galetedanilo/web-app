@@ -30,7 +30,6 @@ async fn main() -> std::io::Result<()> {
                     .prefer_utf8(true)
                     .use_last_modified(true)
             )
-            .configure(api::routes)
             .configure(pages::routes)
     };
     

@@ -7,9 +7,9 @@ use crate::vars;
 
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::models::LoginForm;
+use crate::models::account::LoginForm;
 
-pub async fn login_user_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn login_user_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -21,7 +21,11 @@ pub async fn login_user_form(template: web::Data<Tera>) -> Result<HttpResponse, 
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn login_user(form: web::Form<LoginForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn login_user_handler(form: web::Form<LoginForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_domain_url());
 
     match form.validate() {
         Ok(_) => Ok(
@@ -29,10 +33,7 @@ pub async fn login_user(form: web::Form<LoginForm>, template: web::Data<Tera>) -
         ),
         Err(err) => {
 
-            let mut context = Context::new();
-            
             context.insert("title", "Log In Your Acount");
-            context.insert("domain_url", &vars::get_domain_url());
             context.insert("email", &form.email);
 
             let err_resp = helper_get_error_messages_validate(err);

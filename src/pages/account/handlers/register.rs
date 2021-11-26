@@ -8,9 +8,9 @@ use crate::vars;
 use crate::pages::account::actions::{register_new_user_action};
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::models::NewAccountForm;
+use crate::models::account::NewAccountForm;
 
-pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -22,7 +22,7 @@ pub async fn register_new_account_form(template: web::Data<Tera>) -> Result<Http
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn register_new_account(form: web::Form<NewAccountForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
