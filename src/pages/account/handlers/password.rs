@@ -7,14 +7,14 @@ use crate::vars;
 
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::models::account::{PasswordForm, NewPasswordForm};
+use crate::pages::account::forms::{PasswordForm, NewPasswordForm};
 
 pub async fn password_reset_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
     context.insert("title", "Reset Password");
-    context.insert("domain_url", &vars::get_domain_url());
+    context.insert("domain_url", &vars::get_app_domain_url());
 
     let render = template.render("account/reset.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -26,7 +26,7 @@ pub async fn password_reset_handler(form: web::Form<PasswordForm>, template: web
 
     let mut context = Context::new();
 
-    context.insert("domain_url", &vars::get_domain_url());
+    context.insert("domain_url", &vars::get_app_domain_url());
 
     match form.validate() {
         Ok(_) => {

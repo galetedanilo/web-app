@@ -1,33 +1,24 @@
-use uuid::Uuid;
-
-use crate::vars;
+use sqlx::PgPool;
 
 use crate::utils::{
     helper_encode_password,
-    helper_activate_account_email
 };
 
-use crate::models::account::{NewAccount, NewAccountForm};
+use crate::models::user::UserNew;
+use crate::pages::account::forms::NewAccountForm;
 
-pub fn register_new_user_action(form: NewAccountForm) {
-   
-    let user = NewAccount::from(
-        form.email,
+pub async fn register_new_account_action(form: NewAccountForm, pool: &PgPool) {
+
+    let user = UserNew::from(
         form.first_name, 
         form.last_name,
+        form.email,
         helper_encode_password(form.password.as_str())
     );
 
-    let token = Uuid::new_v4();
-    
-    let email = helper_activate_account_email(
-        &vars::get_app_name(),
-        &vars::get_domain_url(),
-        &"User Full Name Here",
-        &token.to_string()
-    );
-
-    println!("{}", email.into_string());
-    println!("{:?}", user);
+    match user.insert(pool).await {
+        Ok(ok) => println!("{}", ok),
+        Err(err) => println!("{}", err),
+    };
 
 }

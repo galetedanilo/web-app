@@ -7,14 +7,14 @@ use crate::vars;
 
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::models::account::LoginForm;
+use crate::pages::account::forms::LoginForm;
 
 pub async fn login_user_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
     context.insert("title", "Log In Your Account");
-    context.insert("domain_url", &vars::get_domain_url());
+    context.insert("domain_url", &vars::get_app_domain_url());
 
     let render = template.render("account/login.html", &context).map_err(error::ErrorInternalServerError)?;
 
@@ -25,7 +25,7 @@ pub async fn login_user_handler(form: web::Form<LoginForm>, template: web::Data<
 
     let mut context = Context::new();
 
-    context.insert("domain_url", &vars::get_domain_url());
+    context.insert("domain_url", &vars::get_app_domain_url());
 
     match form.validate() {
         Ok(_) => Ok(

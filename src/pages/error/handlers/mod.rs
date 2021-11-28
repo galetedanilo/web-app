@@ -61,7 +61,7 @@ fn render_page_error<B>(res: dev::ServiceResponse<B>, code: u16, title: &str, er
             let mut context = Context::new();
                 
             context.insert("title", title);
-            context.insert("domain_url", &vars::get_domain_url());
+            context.insert("domain_url", &vars::get_app_domain_url());
             context.insert("code", res.status().as_str());
             context.insert("error", error);
             context.insert("message", message);

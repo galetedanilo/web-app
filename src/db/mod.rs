@@ -1,0 +1,22 @@
+use sqlx::postgres::PgPoolOptions;
+use sqlx::PgPool;
+use sqlx::postgres::PgConnectOptions;
+
+use crate::vars;
+
+pub fn get_connection_pool() -> PgPool {
+
+    PgPoolOptions::new()
+        .connect_timeout(std::time::Duration::from_secs(2))
+        .connect_lazy_with(configure_postgres_database())
+}
+
+fn configure_postgres_database() -> PgConnectOptions {
+
+    PgConnectOptions::new()
+        .host(&vars::get_database_host())
+        .port(vars::get_database_port())
+        .username(&vars::get_database_username())
+        .password(&vars::get_database_password())
+        .database(&vars::get_database_name())
+}
