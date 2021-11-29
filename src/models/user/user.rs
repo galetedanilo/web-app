@@ -61,9 +61,9 @@ impl UserNew {
         }
     }
 
-    pub async fn insert(&self, pool: &PgPool) -> Result<i32, sqlx::Error>{
+    pub async fn insert(&self, pool: &PgPool) -> Result<i64, sqlx::Error>{
     
-        let row: (i32, ) = sqlx::query_as("INSERT INTO tb_users (first_name, last_name, email, password, created, updated, enabled) VALUES ($1, $2, $3, $4, $5, $6, $7) returning id")
+        let row: (i64, ) = sqlx::query_as("INSERT INTO tb_users (first_name, last_name, email, password, created, updated, enabled) VALUES ($1, $2, $3, $4, $5, $6, $7) returning id")
             .bind(&self.first_name)
             .bind(&self.last_name)
             .bind(&self.email)

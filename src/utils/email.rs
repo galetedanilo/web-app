@@ -1,6 +1,8 @@
 use maud::{html, Markup, DOCTYPE};
 
-pub fn helper_activate_account_email(app_name: &str, domain_url: &str, name: &str, token: &str) -> Markup {
+use crate::vars;
+
+pub fn helper_activate_account_email(name: &str, link: &str) -> Markup {
 
     html! {
 
@@ -16,7 +18,7 @@ pub fn helper_activate_account_email(app_name: &str, domain_url: &str, name: &st
 
             body {
                 div sytle="display: flex; flex-direction: column; align-items: center;" {
-                    h2 { "Welcome to " (app_name) }
+                    h2 { "Welcome to " (vars::get_app_name()) }
 
                     p { "Hi " (name) }
 
@@ -24,7 +26,7 @@ pub fn helper_activate_account_email(app_name: &str, domain_url: &str, name: &st
 
                     p { "To complete your registration click on the link below to activate your account and access our platform" }
 
-                    a href = { (domain_url)"/account/activate/" (token) } { "Activate"}
+                    a href = { (link)  } { "Activate"}
                 }
 
             }
