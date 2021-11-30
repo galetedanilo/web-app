@@ -2,9 +2,12 @@ use sqlx::postgres::PgPoolOptions;
 use sqlx::PgPool;
 use sqlx::postgres::PgConnectOptions;
 
+pub mod models;
+pub mod query;
+
 use crate::vars;
 
-pub fn get_connection_pool() -> PgPool {
+pub fn get_postgres_pool() -> PgPool {
 
     PgPoolOptions::new()
         .connect_timeout(std::time::Duration::from_secs(2))

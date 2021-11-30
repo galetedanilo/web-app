@@ -1,33 +1,39 @@
 use sqlx::PgPool;
 
+use crate::db::query::TokenNew;
+use crate::db::query::UserNew;
+
+use crate::vars;
+
 use crate::utils::{
     helper_encode_password,
     helper_activate_account_email,
 };
 
-use crate::models::user::Token;
-use crate::models::user::UserNew;
 use crate::pages::account::forms::NewAccountForm;
 
 pub async fn register_new_account_action(form: NewAccountForm, pool: &PgPool) {
 
-    let user = UserNew::from(
+    let user_new = UserNew::from(
         form.first_name, 
         form.last_name,
         form.email,
         helper_encode_password(form.password.as_str())
     );
 
-    match user.insert(pool).await {
-        Ok(id) => {
+    match user_new.insert(pool).await {
+        Ok(user) => {
 
-            let token = Token::from(id);
+            let token_new = TokenNew::from(user.id);
 
-            match token.insert(pool).await {
-                Ok(ok) => {
-                    let message = helper_activate_account_email(&format!("{} {}", user.first_name, user.last_name), &ok);
+            match token_new.insert(pool).await {
+                Ok(token) => {
 
-                    println!("{}", message.into_string());
+                    let url = format!("{}/account/activate/{}", vars::get_app_domain_url(), token.token);
+
+                    let email_message = helper_activate_account_email(&format!("{} {}", user.first_name, user.last_name), &url);
+
+                    println!("{}", email_message.into_string());
                 },
                 Err(err) => println!("{}", err),
             };

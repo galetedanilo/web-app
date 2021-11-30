@@ -1,6 +1,7 @@
 use sqlx::PgPool;
-use serde::{Serialize, Deserialize};
 use validator::Validate;
+
+use crate::db::models::User;
 
 use crate::utils::{
     helper_is_number_validate,
@@ -9,19 +10,7 @@ use crate::utils::{
     helper_upper_case_validate
 };
 
-#[derive(Debug, Serialize, Deserialize)]
-pub struct User {
-    pub id: u32,
-    pub first_name: String,
-    pub last_name: String,
-    pub email: String,
-    pub password: String,
-    pub created_at: chrono::NaiveDateTime,
-    pub update_at: chrono::NaiveDateTime,
-    pub enable: bool,
-}
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
+#[derive(Validate)]
 pub struct UserNew {
 
     #[validate(length(min = 2, max = 20, message = "The first name must be 2-20 characters long"))]
@@ -40,10 +29,10 @@ pub struct UserNew {
     #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper character"))]
     pub password: String,
     
-    pub created_at: chrono::NaiveDateTime,
-    pub update_at: chrono::NaiveDateTime,
+    pub created: chrono::NaiveDateTime,
+    pub updated: chrono::NaiveDateTime,
 
-    pub enabled: bool,
+    pub enable: bool,
 }
 
 impl UserNew {
@@ -55,25 +44,36 @@ impl UserNew {
             last_name,
             email,
             password,
-            created_at: chrono::Local::now().naive_local(),
-            update_at: chrono::Local::now().naive_local(),
-            enabled: false
+            created: chrono::Local::now().naive_local(),
+            updated: chrono::Local::now().naive_local(),
+            enable: false
         }
     }
 
-    pub async fn insert(&self, pool: &PgPool) -> Result<i64, sqlx::Error>{
+    pub async fn insert(&self, pool: &PgPool) -> Result<User, sqlx::Error>{
     
-        let row: (i64, ) = sqlx::query_as("INSERT INTO tb_users (first_name, last_name, email, password, created, updated, enabled) VALUES ($1, $2, $3, $4, $5, $6, $7) returning id")
+        let row: (i64, ) = sqlx::query_as("INSERT INTO tb_users (first_name, last_name, email, password, created, updated, enable) VALUES ($1, $2, $3, $4, $5, $6, $7) returning id")
             .bind(&self.first_name)
             .bind(&self.last_name)
             .bind(&self.email)
             .bind(&self.password)
-            .bind(&self.created_at)
-            .bind(&self.update_at)
-            .bind(&self.enabled)
+            .bind(&self.created)
+            .bind(&self.updated)
+            .bind(&self.enable)
             .fetch_one(pool)
             .await?;
 
-        Ok(row.0)
+        Ok(
+            User {
+                id: row.0,
+                first_name: self.first_name.clone(),
+                last_name: self.last_name.clone(),
+                email: self.email.clone(),
+                password: self.password.clone(),
+                created: self.created,
+                updated: self.updated,
+                enable: self.enable,
+            }
+        )
     }
 }

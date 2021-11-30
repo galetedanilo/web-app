@@ -4,7 +4,6 @@ use tera::Tera;
 
 mod api;
 mod db;
-mod models;
 mod pages;
 mod services;
 mod utils;
@@ -25,7 +24,7 @@ async fn main() -> std::io::Result<()> {
             }
         };
 
-        let db_postgres = Data::new(db::get_connection_pool());
+        let db_postgres = Data::new(db::get_postgres_pool());
 
         App::new()
             .data(templates)
