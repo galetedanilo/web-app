@@ -10,6 +10,7 @@ use crate::pages::account::actions::{register_new_account_action};
 use crate::utils::helper_get_error_messages_validate;
 
 use crate::pages::account::forms::NewAccountForm;
+use crate::pages::error::enums::ActionDatabaseError;
 
 pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -32,23 +33,44 @@ pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, pool:
     match form.validate() {
         Ok(_) => {
 
-            register_new_account_action(form.into_inner(), pool.get_ref()).await;
+            match register_new_account_action(&form, pool.get_ref()).await {
+                Ok(transfer) => {
+                    context.insert("title", "Confirm Your Account");
+                    context.insert("email", &transfer.email);
+        
+                    let render = template.render("account/activate.html", &context).map_err(error::ErrorInternalServerError)?;
+        
+                    Ok(HttpResponse::Created().body(render))
+                },
+                Err(err) => {
 
-            context.insert("title", "Confirm Your Account");
-            context.insert("email", "your_account@email.com");
+                    match err {
+                        ActionDatabaseError::UniqueColumn => {
 
-            let render = template.render("account/activate.html", &context).map_err(error::ErrorInternalServerError)?;
+                            context.insert("title", "Create New Account");
+                            context.insert("first_name", &form.first_name.trim());
+                            context.insert("last_name", &form.last_name.trim());
+                            context.insert("email", &form.email.trim());
 
-            Ok(HttpResponse::Created().body(render))
+                            context.insert("message_error", &vec!["This email address has been taken by another account."]);
+
+                            let render = template.render("account/register.html", &context).map_err(error::ErrorInternalServerError)?;
+
+                            Ok(HttpResponse::Ok().body(render))
+                        },
+                        _ => Err(error::ErrorInternalServerError("Internal Server Error"))
+                    }
+                }
+            }
         },
         Err(err) => {
 
-            context.insert("title", "Create New Account");
-            context.insert("first_name", &form.first_name);
-            context.insert("last_name", &form.last_name);
-            context.insert("email", &form.email);
-
             let err_resp = helper_get_error_messages_validate(err);
+
+            context.insert("title", "Create New Account");
+            context.insert("first_name", &form.first_name.trim());
+            context.insert("last_name", &form.last_name.trim());
+            context.insert("email", &form.email.trim());
 
             context.insert("message_error", &err_resp);
 
