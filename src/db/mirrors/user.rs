@@ -1,7 +1,4 @@
-use sqlx::PgPool;
 use validator::Validate;
-
-use crate::db::models::User;
 
 use crate::utils::{
     helper_is_number_validate,
@@ -29,8 +26,8 @@ pub struct UserNew {
     #[validate(custom(function = "helper_upper_case_validate", message = "Password must contain at least one upper character"))]
     pub password: String,
     
-    pub created: chrono::NaiveDateTime,
-    pub updated: chrono::NaiveDateTime,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: chrono::NaiveDateTime,
 
     pub enable: bool,
 }
@@ -44,36 +41,9 @@ impl UserNew {
             last_name,
             email,
             password,
-            created: chrono::Local::now().naive_local(),
-            updated: chrono::Local::now().naive_local(),
+            created_at: chrono::Local::now().naive_local(),
+            updated_at: chrono::Local::now().naive_local(),
             enable: false
         }
-    }
-
-    pub async fn insert(&self, pool: &PgPool) -> Result<User, sqlx::Error>{
-    
-        let row: (i64, ) = sqlx::query_as("INSERT INTO tb_users (first_name, last_name, email, password, created, updated, enable) VALUES ($1, $2, $3, $4, $5, $6, $7) returning id")
-            .bind(&self.first_name)
-            .bind(&self.last_name)
-            .bind(&self.email)
-            .bind(&self.password)
-            .bind(&self.created)
-            .bind(&self.updated)
-            .bind(&self.enable)
-            .fetch_one(pool)
-            .await?;
-
-        Ok(
-            User {
-                id: row.0,
-                first_name: self.first_name.clone(),
-                last_name: self.last_name.clone(),
-                email: self.email.clone(),
-                password: self.password.clone(),
-                created: self.created,
-                updated: self.updated,
-                enable: self.enable,
-            }
-        )
     }
 }

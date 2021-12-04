@@ -19,7 +19,7 @@ pub struct LoginForm {
 }
 
 #[derive(Serialize, Deserialize, Validate)]
-pub struct NewAccountForm {
+pub struct AccountForm {
     
     #[validate(length(min = 2, max = 20, message = "The first name must be 2-20 characters long"))]
     pub first_name: String,

@@ -1,6 +1,6 @@
-mod token;
+mod confirmation;
 mod user;
 
-pub use token::Token;
+pub use confirmation::Confirmation;
 
 pub use user::User;

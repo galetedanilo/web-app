@@ -1,12 +1,17 @@
-pub struct NewAccountTransfer {
+pub enum AccountError {
+    UniqueViolation,
+    GeneriqueError,
+}
+
+pub struct AccountResponse {
     pub full_name: String,
     pub email: String,
 }
 
-impl NewAccountTransfer {
+impl AccountResponse {
 
     pub fn from(full_name: String, email: String) -> Self {
-        NewAccountTransfer {
+        AccountResponse {
             full_name,
             email,
         }

@@ -9,8 +9,8 @@ use crate::vars;
 use crate::pages::account::actions::{register_new_account_action};
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::pages::account::forms::NewAccountForm;
-use crate::pages::error::enums::ActionDatabaseError;
+use crate::pages::account::forms::AccountForm;
+use crate::pages::account::responses::AccountError;
 
 pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -24,7 +24,7 @@ pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Res
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn register_new_account_handler(form: web::Form<AccountForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -34,9 +34,9 @@ pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, pool:
         Ok(_) => {
 
             match register_new_account_action(&form, pool.get_ref()).await {
-                Ok(transfer) => {
+                Ok(account) => {
                     context.insert("title", "Confirm Your Account");
-                    context.insert("email", &transfer.email);
+                    context.insert("email", &account.email);
         
                     let render = template.render("account/activate.html", &context).map_err(error::ErrorInternalServerError)?;
         
@@ -45,7 +45,7 @@ pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, pool:
                 Err(err) => {
 
                     match err {
-                        ActionDatabaseError::UniqueColumn => {
+                        AccountError::UniqueViolation => {
 
                             context.insert("title", "Create New Account");
                             context.insert("first_name", &form.first_name.trim());
@@ -58,7 +58,10 @@ pub async fn register_new_account_handler(form: web::Form<NewAccountForm>, pool:
 
                             Ok(HttpResponse::Ok().body(render))
                         },
-                        _ => Err(error::ErrorInternalServerError("Internal Server Error"))
+                        AccountError::GeneriqueError => {
+
+                            Err(error::ErrorInternalServerError("Internal Server Error"))
+                        },
                     }
                 }
             }
