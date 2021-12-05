@@ -10,6 +10,7 @@ use crate::vars;
 
 pub fn get_postgres_pool() -> PgPool {
 
+    println!("Open PostgreSQL Connection");
     PgPoolOptions::new()
         .max_connections(5)
         .connect_timeout(std::time::Duration::from_secs(2))

@@ -1,0 +1,48 @@
+{% extends "layouts/main_layout.html" %}
+
+{% block title %}{{title}}{% endblock title %}
+
+{% block additional_css %}
+    <link rel="stylesheet" href="{{domain_url}}/static/css/account.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+{% endblock additional_css %}
+
+{% block content %}
+    <div class="container-full-screen content-middle">
+        <div class="row">
+            <div class="col">
+                <div class="form-account">
+                    <div class="text-center">
+                        <h2 class="form-title">Account Activation Update</h2>
+                    </div>
+                    <div class="form-message">
+                        <p>The link to activate your account has expired</p>
+                        <p>Enter your email address below and we'll send you a link to activate your account.</p>
+                    </div>
+                    <form action="{{domain_url}}/account/activate" name="activation" method="post">
+                        <div class="form-label">
+                            <label>Email:</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-envelope"></span>
+                            <input type="email" name="email" placeholder="your_email@email.com" required>
+                        </div>
+                        <div class="form-message-error">
+                        {% if message_error %}
+                            {% for error in message_error %}
+                            <div class="form-label-error">
+                                <label>{{error}}</label>
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                        </div>
+                        <div class="form-input">
+                            <input type="submit" value="Activation">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

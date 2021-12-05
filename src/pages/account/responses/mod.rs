@@ -1,5 +1,7 @@
 pub enum AccountError {
     UniqueViolation,
+    NotFound,
+    ExpiredValue,
     GeneriqueError,
 }
 

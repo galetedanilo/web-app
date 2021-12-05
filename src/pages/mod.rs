@@ -32,14 +32,18 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
         .service(
             web::scope("/account")
             .service(
+                web::resource("/activate/{token}")
+                    .route(web::get().to(account::handlers::account_confirmation_handler))
+            )
+            .service(
                 web::resource("/register")
-                    .route(web::get().to(account::handlers::register_new_account_form_handler))
-                    .route(web::post().to(account::handlers::register_new_account_handler))
+                    .route(web::get().to(account::handlers::account_register_form_handler))
+                    .route(web::post().to(account::handlers::account_register_handler))
             )
             .service(
                 web::resource("/login")
-                    .route(web::get().to(account::handlers::login_user_form_handler))
-                    .route(web::post().to(account::handlers::login_user_handler))
+                    .route(web::get().to(account::handlers::account_login_form_handler))
+                    .route(web::post().to(account::handlers::account_login_handler))
             )
             .service(
                 web::resource("/password/reset")

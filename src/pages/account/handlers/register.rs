@@ -6,13 +6,43 @@ use validator::Validate;
 
 use crate::vars;
 
-use crate::pages::account::actions::{register_new_account_action};
-use crate::utils::helper_get_error_messages_validate;
+use crate::pages::account::actions::{
+    account_confirmation_action,
+    account_register_action
+};
 
 use crate::pages::account::forms::AccountForm;
 use crate::pages::account::responses::AccountError;
 
-pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+use crate::utils::helper_get_error_messages_validate;
+
+pub async fn account_confirmation_handler(uuid: web::Path<uuid::Uuid>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_app_domain_url());
+    
+    match account_confirmation_action(&uuid, pool.get_ref()).await {
+        Ok(account) => {
+            Ok(HttpResponse::Ok().body("Conf"))
+        },
+        Err(err) => {
+            match err {
+                AccountError::ExpiredValue => {
+
+                    context.insert("title", "Account Activation Update");
+
+                    let render = template.render("account/expired_activation.html", &context).map_err(error::ErrorInternalServerError)?;
+
+                    Ok(HttpResponse::Ok().body(render))
+                },
+                _ => Err(error::ErrorBadRequest("Bad Request"))
+            }
+        }
+    }
+}
+
+pub async fn account_register_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -24,7 +54,7 @@ pub async fn register_new_account_form_handler(template: web::Data<Tera>) -> Res
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn register_new_account_handler(form: web::Form<AccountForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -33,7 +63,7 @@ pub async fn register_new_account_handler(form: web::Form<AccountForm>, pool: we
     match form.validate() {
         Ok(_) => {
 
-            match register_new_account_action(&form, pool.get_ref()).await {
+            match account_register_action(&form, pool.get_ref()).await {
                 Ok(account) => {
                     context.insert("title", "Confirm Your Account");
                     context.insert("email", &account.email);
@@ -58,7 +88,7 @@ pub async fn register_new_account_handler(form: web::Form<AccountForm>, pool: we
 
                             Ok(HttpResponse::Ok().body(render))
                         },
-                        AccountError::GeneriqueError => {
+                        _ => {
 
                             Err(error::ErrorInternalServerError("Internal Server Error"))
                         },

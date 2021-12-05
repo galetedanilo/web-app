@@ -9,7 +9,7 @@ use crate::utils::helper_get_error_messages_validate;
 
 use crate::pages::account::forms::LoginForm;
 
-pub async fn login_user_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_login_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -21,7 +21,7 @@ pub async fn login_user_form_handler(template: web::Data<Tera>) -> Result<HttpRe
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn login_user_handler(form: web::Form<LoginForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_login_handler(form: web::Form<LoginForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 

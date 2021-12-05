@@ -39,4 +39,20 @@ impl UserQuery {
 
         Ok(result)
     }
+
+    pub async fn enable_account(id: i32, enable: bool, pool: &PgPool) -> Result<User, sqlx::Error> {
+        
+        let result = sqlx::query_as::<_, User>(
+            r#"
+                UPDATE tb_users SET enable = $1 WHERE id = $2 
+                RETURNING id, first_name, last_name, email, password, created_at, updated_at, enable
+            "#,
+            )
+            .bind(enable)
+            .bind(id)
+            .fetch_one(pool)
+            .await?;
+
+        Ok(result)
+    }
 }

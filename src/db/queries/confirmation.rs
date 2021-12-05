@@ -25,4 +25,23 @@ impl ConfirmationQuery {
         Ok(result)
 
     }
+
+    pub async fn delete(id: i32, pool: &PgPool) -> Result<bool, sqlx::Error> {
+        sqlx::query("DELETE FROM tb_confirmations WHERE id = $1")
+        .bind(id)
+        .execute(pool)
+        .await?;
+
+        Ok(true)
+    }
+
+    pub async fn find_by_token(uuid: &uuid::Uuid, pool: &PgPool) -> Result<Confirmation, sqlx::Error> {
+
+        let result = sqlx::query_as::<_, Confirmation>("SELECT * FROM tb_confirmations WHERE token = $1")
+            .bind(&uuid)
+            .fetch_one(pool)
+            .await?;
+        
+        Ok(result)
+    }
 }
