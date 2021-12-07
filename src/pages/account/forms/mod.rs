@@ -50,7 +50,7 @@ pub struct NewPasswordForm {
 }
 
 #[derive(Serialize, Deserialize, Validate)]
-pub struct PasswordForm {
+pub struct EmailForm {
 
     #[validate(email(message = "Is not a valid email address"))]
     pub email: String,

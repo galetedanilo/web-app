@@ -6,15 +6,17 @@ pub enum AccountError {
 }
 
 pub struct AccountResponse {
-    pub full_name: String,
+    pub first_name: String,
+    pub last_name: String,
     pub email: String,
 }
 
 impl AccountResponse {
 
-    pub fn from(full_name: String, email: String) -> Self {
+    pub fn from(first_name: String, last_name: String, email: String) -> Self {
         AccountResponse {
-            full_name,
+            first_name,
+            last_name,
             email,
         }
     }

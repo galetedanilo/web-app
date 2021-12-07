@@ -14,10 +14,10 @@ pub fn get_postgres_pool() -> PgPool {
     PgPoolOptions::new()
         .max_connections(5)
         .connect_timeout(std::time::Duration::from_secs(2))
-        .connect_lazy_with(configure_postgres_database())
+        .connect_lazy_with(configure_postgres_connection())
 }
 
-fn configure_postgres_database() -> PgConnectOptions {
+fn configure_postgres_connection() -> PgConnectOptions {
 
     PgConnectOptions::new()
         .host(&vars::get_database_host())

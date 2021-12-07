@@ -17,7 +17,7 @@ use crate::utils::{
     helper_hash_password,
 };
 
-pub async fn account_confirmation_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result<AccountResponse, AccountError> {
+pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result<AccountResponse, AccountError> {
 
     match ConfirmationQuery::find_by_token(&uuid, pool).await {
         Ok(confirmation) => {
@@ -29,7 +29,8 @@ pub async fn account_confirmation_action(uuid: &uuid::Uuid, pool: &PgPool) -> Re
                         match ConfirmationQuery::delete(confirmation.id, pool).await {
                             Ok(_) => Ok(
                                         AccountResponse::from(
-                                            format!("{} {}", user.first_name, user.last_name),
+                                            user.first_name,
+                                            user.last_name,
                                             user.email,
                                         )
                                     ),
@@ -92,7 +93,8 @@ pub async fn account_register_action(form: &AccountForm, pool: &PgPool) -> Resul
 
                                     Ok(
                                         AccountResponse::from(
-                                            full_name,
+                                            user.first_name,
+                                            user.last_name,
                                             user.email
                                         )
                                     )

@@ -7,7 +7,7 @@ use crate::vars;
 
 use crate::utils::helper_get_error_messages_validate;
 
-use crate::pages::account::forms::{PasswordForm, NewPasswordForm};
+use crate::pages::account::forms::{EmailForm, NewPasswordForm};
 
 pub async fn password_reset_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -22,7 +22,7 @@ pub async fn password_reset_form_handler(template: web::Data<Tera>) -> Result<Ht
 }
 
 
-pub async fn password_reset_handler(form: web::Form<PasswordForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn password_reset_handler(form: web::Form<EmailForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
