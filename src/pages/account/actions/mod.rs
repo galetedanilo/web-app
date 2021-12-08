@@ -22,19 +22,20 @@ pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result
     match ConfirmationQuery::find_by_token(&uuid, pool).await {
         Ok(confirmation) => {
 
+            //verifi if token is expired
             if confirmation.expires_at > chrono::Local::now().naive_local() {
-                match UserQuery::enable_account(confirmation.user_id, true, pool).await {
+                match UserQuery::activate_account(confirmation.user_id, true, pool).await {
                     Ok(user) => {
                         
                         match ConfirmationQuery::delete(confirmation.id, pool).await {
-                            Ok(_) => Ok(
+                            None => Ok(
                                         AccountResponse::from(
                                             user.first_name,
                                             user.last_name,
                                             user.email,
                                         )
                                     ),
-                            Err(_) => Err(AccountError::GeneriqueError)
+                            Some(_) => Err(AccountError::GeneriqueError)
                         }
                     },
                     Err(err) => {
@@ -45,7 +46,10 @@ pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result
                     }
                 }
             } else {
-                Err(AccountError::ExpiredValue)
+                match ConfirmationQuery::delete(confirmation.id, pool).await {
+                    None => Err(AccountError::ExpiredValue),
+                    Some(_) => Err(AccountError::GeneriqueError)
+                }
             }            
         },
         Err(err) => {
@@ -81,7 +85,7 @@ pub async fn account_register_action(form: &AccountForm, pool: &PgPool) -> Resul
                             //Create a confirnation token
                             let confirmation = ConfirmationNew::from(user.id);
 
-                            //Save a confirmation token for the new account
+                            //Save a new confirmation token for the new account
                             match ConfirmationQuery::save(&confirmation, pool).await {
                                 Ok(confirmation) => {
 

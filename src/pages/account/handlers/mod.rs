@@ -3,8 +3,8 @@ mod password;
 mod register;
 
 pub use register::account_activate_handler;
-pub use register::account_expired_form_handler;
-pub use register::account_expired_handler;
+pub use register::account_expired_validation_form_handler;
+pub use register::account_expired_validation_handler;
 pub use register::account_register_form_handler;
 pub use register::account_register_handler;
 

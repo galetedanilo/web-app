@@ -26,13 +26,14 @@ impl ConfirmationQuery {
 
     }
 
-    pub async fn delete(id: i32, pool: &PgPool) -> Result<bool, sqlx::Error> {
+    pub async fn delete(id: i32, pool: &PgPool) -> Option<sqlx::Error> {
         sqlx::query("DELETE FROM tb_confirmations WHERE id = $1")
         .bind(id)
         .execute(pool)
-        .await?;
+        .await
+        .err();
 
-        Ok(true)
+        None
     }
 
     pub async fn find_by_token(uuid: &uuid::Uuid, pool: &PgPool) -> Result<Confirmation, sqlx::Error> {

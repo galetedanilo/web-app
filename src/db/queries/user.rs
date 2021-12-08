@@ -40,7 +40,7 @@ impl UserQuery {
         Ok(result)
     }
 
-    pub async fn enable_account(id: i32, enable: bool, pool: &PgPool) -> Result<User, sqlx::Error> {
+    pub async fn activate_account(id: i32, enable: bool, pool: &PgPool) -> Result<User, sqlx::Error> {
         
         let result = sqlx::query_as::<_, User>(
             r#"

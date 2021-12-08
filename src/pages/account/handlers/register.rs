@@ -17,7 +17,7 @@ use crate::pages::account::responses::AccountError;
 
 use crate::utils::helper_get_error_messages_validate;
 
-pub async fn account_expired_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_expired_validation_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -29,11 +29,30 @@ pub async fn account_expired_form_handler(template: web::Data<Tera>) -> Result<H
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn account_expired_handler(form: web::Form<EmailForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_expired_validation_handler(form: web::Form<EmailForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
     context.insert("domain_url", &vars::get_app_domain_url());
+
+    match form.validate() {
+        Ok(_) => {
+
+            //DoTo create this function in action to create a new confirmation token for the user
+            //match account_expired_validation_action(&form, pool.get_ref()).await {}
+            Ok(HttpResponse::Ok().body("Ok"))
+        },
+        Err(err) => {
+            let err_resp = helper_get_error_messages_validate(err);
+
+            context.insert("title", "Account Activation Update");
+            context.insert("message_error", &err_resp);
+
+            let render = template.render("account/expired.html", &context).map_err(error::ErrorInternalServerError)?;
+
+            Ok(HttpResponse::Ok().body(render))
+        }
+    }
 }
 
 pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
@@ -44,6 +63,7 @@ pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Da
     
     match account_activate_action(&uuid, pool.get_ref()).await {
         Ok(account) => {
+            //ToDo create a html page to informe the user your account is active
             Ok(HttpResponse::Ok().body("Conf"))
         },
         Err(err) => {
