@@ -9,6 +9,7 @@ use crate::db::mirrors::ConfirmationNew;
 use crate::db::mirrors::UserNew;
 
 use crate::pages::account::forms::AccountForm;
+use crate::pages::account::forms::EmailForm;
 use crate::pages::account::responses::AccountResponse;
 use crate::pages::account::responses::AccountError;
 
@@ -16,6 +17,33 @@ use crate::utils::{
     helper_activate_account_email,
     helper_hash_password,
 };
+
+pub async fn account_activate_expired_action(form: &EmailForm, pool: &PgPool) -> Result<AccountResponse, AccountError> {
+
+    match UserQuery::find_by_email(form.email.trim(), pool).await {
+        Ok(user) => {
+
+            let confirmation = ConfirmationNew::from(user.id);
+
+            match ConfirmationQuery::save(&confirmation, pool).await {
+                Ok(_) => Ok(
+                                AccountResponse::from(
+                                    user.first_name,
+                                    user.last_name,
+                                    user.email,
+                                )
+                            ),
+                Err(_) => Err(AccountError::GeneriqueError)
+            }
+        },
+        Err(err) => {
+            match err {
+                sqlx::Error::RowNotFound => Err(AccountError::NotFound),
+                _ => Err(AccountError::GeneriqueError)
+            }
+        }
+    }
+}
 
 pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result<AccountResponse, AccountError> {
 
@@ -64,7 +92,7 @@ pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result
 
 pub async fn account_register_action(form: &AccountForm, pool: &PgPool) -> Result<AccountResponse, AccountError> {
 
-    match UserQuery::find_by_email(&form.email.trim(), pool).await {
+    match UserQuery::find_by_email(form.email.trim(), pool).await {
         Ok(_) => Err(AccountError::UniqueViolation),
         Err(err) => {
 
@@ -94,6 +122,8 @@ pub async fn account_register_action(form: &AccountForm, pool: &PgPool) -> Resul
                                     let full_name = format!("{} {}", user.first_name, user.last_name);
 
                                     let email = helper_activate_account_email(&full_name, &url);
+
+                                    //DoTo send confirmation email to the new user
 
                                     Ok(
                                         AccountResponse::from(

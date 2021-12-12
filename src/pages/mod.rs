@@ -33,8 +33,8 @@ pub fn routes(cfg: &mut web::ServiceConfig) {
             web::scope("/account")
             .service(
                 web::resource("/activate")
-                    .route(web::get().to(account::handlers::account_expired_validation_form_handler))
-                    .route(web::post().to(account::handlers::account_expired_validation_handler))
+                    .route(web::get().to(account::handlers::account_activate_expired_form_handler))
+                    .route(web::post().to(account::handlers::account_activate_expired_handler))
             )
             .service(
                 web::resource("/activate/{token}")

@@ -17,7 +17,7 @@ use crate::pages::account::responses::AccountError;
 
 use crate::utils::helper_get_error_messages_validate;
 
-pub async fn account_expired_validation_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_activate_expired_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -29,7 +29,7 @@ pub async fn account_expired_validation_form_handler(template: web::Data<Tera>) 
     Ok(HttpResponse::Ok().body(render))
 }
 
-pub async fn account_expired_validation_handler(form: web::Form<EmailForm>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
     let mut context = Context::new();
 
@@ -40,6 +40,14 @@ pub async fn account_expired_validation_handler(form: web::Form<EmailForm>, temp
 
             //DoTo create this function in action to create a new confirmation token for the user
             //match account_expired_validation_action(&form, pool.get_ref()).await {}
+            match account_activate_expired_action(&form, pool.get_ref()).await {
+                Ok(account) => {
+                    //ToDo
+                },
+                Err(err) => {
+                    //ToDo
+                }
+            }
             Ok(HttpResponse::Ok().body("Ok"))
         },
         Err(err) => {
@@ -106,11 +114,11 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
             match account_register_action(&form, pool.get_ref()).await {
                 Ok(account) => {
                     context.insert("title", "Confirm Your Account");
-                    context.insert("first_name", &account.first_name);
-                    context.insert("last_name", &account.last_name);
-                    context.insert("email", &account.email);
+                    context.insert("first_name", account.first_name.trim());
+                    context.insert("last_name", account.last_name.trim());
+                    context.insert("email", account.email.trim());
         
-                    let render = template.render("account/confirmation.html", &context).map_err(error::ErrorInternalServerError)?;
+                    let render = template.render("account/confirmation_message.html", &context).map_err(error::ErrorInternalServerError)?;
         
                     Ok(HttpResponse::Created().body(render))
                 },
@@ -120,9 +128,9 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
                         AccountError::UniqueViolation => {
 
                             context.insert("title", "Create New Account");
-                            context.insert("first_name", &form.first_name.trim());
-                            context.insert("last_name", &form.last_name.trim());
-                            context.insert("email", &form.email.trim());
+                            context.insert("first_name", form.first_name.trim());
+                            context.insert("last_name", form.last_name.trim());
+                            context.insert("email", form.email.trim());
 
                             context.insert("message_error", &vec!["This email address has been taken by another account."]);
 
@@ -143,9 +151,9 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
             let err_resp = helper_get_error_messages_validate(err);
 
             context.insert("title", "Create New Account");
-            context.insert("first_name", &form.first_name.trim());
-            context.insert("last_name", &form.last_name.trim());
-            context.insert("email", &form.email.trim());
+            context.insert("first_name", form.first_name.trim());
+            context.insert("last_name", form.last_name.trim());
+            context.insert("email", form.email.trim());
 
             context.insert("message_error", &err_resp);
 
