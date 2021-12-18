@@ -49,8 +49,6 @@ pub async fn account_activate_action(uuid: &uuid::Uuid, pool: &PgPool) -> Result
 
     match ConfirmationQuery::find_by_token(&uuid, pool).await {
         Ok(confirmation) => {
-
-            //verifi if token is expired
             if confirmation.expires_at > chrono::Local::now().naive_local() {
                 match UserQuery::activate_account(confirmation.user_id, true, pool).await {
                     Ok(user) => {

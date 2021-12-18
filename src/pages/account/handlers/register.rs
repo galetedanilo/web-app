@@ -8,6 +8,7 @@ use crate::vars;
 
 use crate::pages::account::forms::EmailForm;
 use crate::pages::account::actions::{
+    account_activate_expired_action,
     account_activate_action,
     account_register_action
 };
@@ -16,79 +17,6 @@ use crate::pages::account::forms::AccountForm;
 use crate::pages::account::responses::AccountError;
 
 use crate::utils::helper_get_error_messages_validate;
-
-pub async fn account_activate_expired_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
-
-    let mut context = Context::new();
-
-    context.insert("domain_url", &vars::get_app_domain_url());
-    context.insert("title", "Account Activation Update");
-
-    let render = template.render("account/expired.html", &context).map_err(error::ErrorInternalServerError)?;
-
-    Ok(HttpResponse::Ok().body(render))
-}
-
-pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
-
-    let mut context = Context::new();
-
-    context.insert("domain_url", &vars::get_app_domain_url());
-
-    match form.validate() {
-        Ok(_) => {
-
-            //DoTo create this function in action to create a new confirmation token for the user
-            //match account_expired_validation_action(&form, pool.get_ref()).await {}
-            match account_activate_expired_action(&form, pool.get_ref()).await {
-                Ok(account) => {
-                    //ToDo
-                },
-                Err(err) => {
-                    //ToDo
-                }
-            }
-            Ok(HttpResponse::Ok().body("Ok"))
-        },
-        Err(err) => {
-            let err_resp = helper_get_error_messages_validate(err);
-
-            context.insert("title", "Account Activation Update");
-            context.insert("message_error", &err_resp);
-
-            let render = template.render("account/expired.html", &context).map_err(error::ErrorInternalServerError)?;
-
-            Ok(HttpResponse::Ok().body(render))
-        }
-    }
-}
-
-pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
-
-    let mut context = Context::new();
-
-    context.insert("domain_url", &vars::get_app_domain_url());
-    
-    match account_activate_action(&uuid, pool.get_ref()).await {
-        Ok(account) => {
-            //ToDo create a html page to informe the user your account is active
-            Ok(HttpResponse::Ok().body("Conf"))
-        },
-        Err(err) => {
-            match err {
-                AccountError::ExpiredValue => {
-
-                    context.insert("title", "Account Activation Update");
-
-                    let render = template.render("account/expired.html", &context).map_err(error::ErrorInternalServerError)?;
-
-                    Ok(HttpResponse::Ok().body(render))
-                },
-                _ => Err(error::ErrorBadRequest("Bad Request"))
-            }
-        }
-    }
-}
 
 pub async fn account_register_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -113,12 +41,13 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
 
             match account_register_action(&form, pool.get_ref()).await {
                 Ok(account) => {
+
                     context.insert("title", "Confirm Your Account");
                     context.insert("first_name", account.first_name.trim());
                     context.insert("last_name", account.last_name.trim());
                     context.insert("email", account.email.trim());
         
-                    let render = template.render("account/confirmation_message.html", &context).map_err(error::ErrorInternalServerError)?;
+                    let render = template.render("account/create_new_account.html", &context).map_err(error::ErrorInternalServerError)?;
         
                     Ok(HttpResponse::Created().body(render))
                 },
@@ -162,4 +91,99 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
             Ok(HttpResponse::Ok().body(render))
         },
     }     
+}
+
+pub async fn account_activate_expired_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_app_domain_url());
+    context.insert("title", "Account Activation Update");
+
+    let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+
+    Ok(HttpResponse::Ok().body(render))
+}
+
+pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_app_domain_url());
+
+    match form.validate() {
+        Ok(_) => {
+
+            match account_activate_expired_action(&form, pool.get_ref()).await {
+                Ok(account) => {
+
+                    context.insert("title", "Confirm Your Account");
+                    context.insert("first_name", account.first_name.trim());
+                    context.insert("last_name", account.last_name.trim());
+                    context.insert("email", account.email.trim());
+        
+                    let render = template.render("account/create_new_account.html", &context).map_err(error::ErrorInternalServerError)?;
+        
+                    Ok(HttpResponse::Ok().body(render))
+                },
+                Err(err) => {
+                    match err {
+                        AccountError::NotFound => {
+                            context.insert("title", "Account Activation Update");
+                            context.insert("message_error", &vec!["There is no account for the email entered"]);
+
+                            let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+
+                            Ok(HttpResponse::Ok().body(render))
+                        },
+                        _ => Err(error::ErrorInternalServerError("Internal Server Error"))
+                    }
+                }
+            }
+        },
+        Err(err) => {
+            let err_resp = helper_get_error_messages_validate(err);
+
+            context.insert("title", "Account Activation Update");
+            context.insert("message_error", &err_resp);
+
+            let render = template.render("account/activate_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+
+            Ok(HttpResponse::Ok().body(render))
+        }
+    }
+}
+
+pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Data<PgPool>, template: web::Data<Tera>) -> Result<HttpResponse, Error> {
+
+    let mut context = Context::new();
+
+    context.insert("domain_url", &vars::get_app_domain_url());
+    
+    match account_activate_action(&uuid, pool.get_ref()).await {
+        Ok(account) => {
+            
+            context.insert("title", "Confirm Your Account");
+            context.insert("first_name", account.first_name.trim());
+            context.insert("last_name", account.last_name.trim());
+            context.insert("web_app", &vars::get_app_name());
+        
+            let render = template.render("account/account_activated.html", &context).map_err(error::ErrorInternalServerError)?;
+            
+            Ok(HttpResponse::Ok().body(render))
+        },
+        Err(err) => {
+            match err {
+                AccountError::ExpiredValue => {
+
+                    context.insert("title", "Account Activation Update");
+
+                    let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+
+                    Ok(HttpResponse::Ok().body(render))
+                },
+                _ => Err(error::ErrorBadRequest("Bad Request"))
+            }
+        }
+    }
 }

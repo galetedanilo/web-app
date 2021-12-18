@@ -16,7 +16,7 @@ pub async fn password_reset_form_handler(template: web::Data<Tera>) -> Result<Ht
     context.insert("title", "Reset Password");
     context.insert("domain_url", &vars::get_app_domain_url());
 
-    let render = template.render("account/reset.html", &context).map_err(error::ErrorInternalServerError)?;
+    let render = template.render("account/password.html", &context).map_err(error::ErrorInternalServerError)?;
 
     Ok(HttpResponse::Ok().body(render))
 }
@@ -45,7 +45,7 @@ pub async fn password_reset_handler(form: web::Form<EmailForm>, template: web::D
 
             context.insert("message_error", &err_resp);
 
-            let render = template.render("account/reset.html", &context).map_err(error::ErrorInternalServerError)?;
+            let render = template.render("account/password.html", &context).map_err(error::ErrorInternalServerError)?;
 
             Ok(HttpResponse::Ok().body(render))
         }
