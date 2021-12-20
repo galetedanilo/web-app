@@ -22,21 +22,21 @@
                         </div>
                         <div class="form-input">
                             <span class="fa fa-user"></span>
-                            <input type="text" name="first_name" value="{% if first_name %}{{first_name}}{% endif %}"  placeholder="your first name" required>
+                            <input type="text" name="first_name" {% if first_name %}value="{{first_name}}"{% endif %} placeholder="your first name" required>
                         </div>
                         <div class="form-label">
                             <label>Last Name</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-user"></span>
-                            <input type="text" name="last_name" value="{% if last_name %}{{last_name}}{% endif %}" placeholder="your last name" required>
+                            <input type="text" name="last_name" {% if last_name %}value="{{last_name}}"{% endif %} placeholder="your last name" required>
                         </div>
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-envelope"></span>
-                            <input type="email" name="email" value="{% if email %}{{email}}{% endif %}" placeholder="your_email@email.com" required>
+                            <input type="email" name="email" {% if email %}value="{{email}}"{% endif %} placeholder="your_email@email.com" required>
                         </div>
                         <div class="form-label">
                             <label>Password:</label>

@@ -27,19 +27,16 @@ pub async fn password_reset_handler(form: web::Form<EmailForm>, template: web::D
     let mut context = Context::new();
 
     context.insert("domain_url", &vars::get_app_domain_url());
+    context.insert("title", "Reset Password");
 
     match form.validate() {
         Ok(_) => {
 
-            context.insert("title", "Check Inbox");
-
-            let render = template.render("account/check_inbox.html", &context).map_err(error::ErrorInternalServerError)?;
+            let render = template.render("account/messages/reset.html", &context).map_err(error::ErrorInternalServerError)?;
 
             Ok(HttpResponse::Ok().body(render))
         },
         Err(err) => {
-
-            context.insert("title", "Reset Password");
 
             let err_resp = helper_get_error_messages_validate(err);
 

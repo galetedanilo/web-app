@@ -47,7 +47,7 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
                     context.insert("last_name", account.last_name.trim());
                     context.insert("email", account.email.trim());
         
-                    let render = template.render("account/create_new_account.html", &context).map_err(error::ErrorInternalServerError)?;
+                    let render = template.render("account/messages/created.html", &context).map_err(error::ErrorInternalServerError)?;
         
                     Ok(HttpResponse::Created().body(render))
                 },
@@ -100,7 +100,7 @@ pub async fn account_activate_expired_form_handler(template: web::Data<Tera>) ->
     context.insert("domain_url", &vars::get_app_domain_url());
     context.insert("title", "Account Activation Update");
 
-    let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+    let render = template.render("account/messages/expired.html", &context).map_err(error::ErrorInternalServerError)?;
 
     Ok(HttpResponse::Ok().body(render))
 }
@@ -122,7 +122,7 @@ pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: 
                     context.insert("last_name", account.last_name.trim());
                     context.insert("email", account.email.trim());
         
-                    let render = template.render("account/create_new_account.html", &context).map_err(error::ErrorInternalServerError)?;
+                    let render = template.render("account/messages/created.html", &context).map_err(error::ErrorInternalServerError)?;
         
                     Ok(HttpResponse::Ok().body(render))
                 },
@@ -132,7 +132,7 @@ pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: 
                             context.insert("title", "Account Activation Update");
                             context.insert("message_error", &vec!["There is no account for the email entered"]);
 
-                            let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+                            let render = template.render("account/messages/expired.html", &context).map_err(error::ErrorInternalServerError)?;
 
                             Ok(HttpResponse::Ok().body(render))
                         },
@@ -147,7 +147,7 @@ pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: 
             context.insert("title", "Account Activation Update");
             context.insert("message_error", &err_resp);
 
-            let render = template.render("account/activate_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+            let render = template.render("account/messages/expired.html", &context).map_err(error::ErrorInternalServerError)?;
 
             Ok(HttpResponse::Ok().body(render))
         }
@@ -168,7 +168,7 @@ pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Da
             context.insert("last_name", account.last_name.trim());
             context.insert("web_app", &vars::get_app_name());
         
-            let render = template.render("account/account_activated.html", &context).map_err(error::ErrorInternalServerError)?;
+            let render = template.render("account/messages/activated.html", &context).map_err(error::ErrorInternalServerError)?;
             
             Ok(HttpResponse::Ok().body(render))
         },
@@ -178,7 +178,7 @@ pub async fn account_activate_handler(uuid: web::Path<uuid::Uuid>, pool: web::Da
 
                     context.insert("title", "Account Activation Update");
 
-                    let render = template.render("account/activate_account_expired.html", &context).map_err(error::ErrorInternalServerError)?;
+                    let render = template.render("account/messages/expired.html", &context).map_err(error::ErrorInternalServerError)?;
 
                     Ok(HttpResponse::Ok().body(render))
                 },
