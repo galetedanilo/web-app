@@ -13,11 +13,14 @@ impl UserQuery {
         let result = sqlx::query_as::<_, User>(
             r#"
                 INSERT INTO tb_users (first_name, last_name, email, password, created_at, updated_at, enable) 
-                VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id, first_name, last_name, email, password, created_at, updated_at, enable
+                VALUES ($1, $2, $3, $4, $5, $6, $7) 
+                RETURNING id, first_name, last_name, birth_date, username, email, password, created_at, updated_at, enable
             "#,
             )
             .bind(&user_new.first_name)
             .bind(&user_new.last_name)
+            .bind(&user_new.birth_date)
+            .bind(&user_new.username)
             .bind(&user_new.email)
             .bind(&user_new.password)
             .bind(&user_new.created_at)

@@ -1,8 +1,10 @@
 pub enum AccountError {
     UniqueViolation,
     NotFound,
+    AccountNotFound,
     ExpiredValue,
     GeneriqueError,
+    WrongPassword,
 }
 
 pub struct AccountResponse {

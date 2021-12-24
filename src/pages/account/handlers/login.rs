@@ -5,7 +5,7 @@ use validator::Validate;
 
 use crate::vars;
 
-use crate::utils::helper_get_error_messages_validate;
+use crate::utils::helper_field_error_message_validate;
 
 use crate::pages::account::forms::LoginForm;
 
@@ -29,7 +29,7 @@ pub async fn account_login_handler(form: web::Form<LoginForm>, template: web::Da
 
     match form.validate() {
         Ok(_) => Ok(
-            //DoTo create login_verify_credentials_handler
+            
             HttpResponse::Ok().body("Login")
         ),
         Err(err) => {
@@ -37,7 +37,7 @@ pub async fn account_login_handler(form: web::Form<LoginForm>, template: web::Da
             context.insert("title", "Log In Your Acount");
             context.insert("email", &form.email);
 
-            let err_resp = helper_get_error_messages_validate(err);
+            let err_resp = helper_field_error_message_validate(err);
 
             context.insert("message_error", &err_resp);
 

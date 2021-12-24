@@ -5,7 +5,7 @@ use validator::Validate;
 
 use crate::vars;
 
-use crate::utils::helper_get_error_messages_validate;
+use crate::utils::helper_field_error_message_validate;
 
 use crate::pages::account::forms::{EmailForm, NewPasswordForm};
 
@@ -38,7 +38,7 @@ pub async fn password_reset_handler(form: web::Form<EmailForm>, template: web::D
         },
         Err(err) => {
 
-            let err_resp = helper_get_error_messages_validate(err);
+            let err_resp = helper_field_error_message_validate(err);
 
             context.insert("message_error", &err_resp);
 

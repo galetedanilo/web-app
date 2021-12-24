@@ -100,6 +100,8 @@ pub async fn account_register_action(form: &AccountForm, pool: &PgPool) -> Resul
                     let user = UserNew::from(
                         form.first_name.trim().to_string(), 
                         form.last_name.trim().to_string(),
+                        chrono::NaiveDate::from_ymd(2021, 12, 5),
+                        form.username.trim().to_string(),
                         form.email.trim().to_string(),
                         helper_hash_password(form.password.as_str())
                     );

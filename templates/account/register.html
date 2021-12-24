@@ -22,28 +22,49 @@
                         </div>
                         <div class="form-input">
                             <span class="fa fa-user"></span>
-                            <input type="text" name="first_name" {% if first_name %}value="{{first_name}}"{% endif %} placeholder="your first name" required>
+                            <input type="text" name="first_name" {% if first_name %}value="{{first_name}}"{% endif %} placeholder="first name" required>
                         </div>
                         <div class="form-label">
                             <label>Last Name</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-user"></span>
-                            <input type="text" name="last_name" {% if last_name %}value="{{last_name}}"{% endif %} placeholder="your last name" required>
+                            <input type="text" name="last_name" {% if last_name %}value="{{last_name}}"{% endif %} placeholder="last name" required>
+                        </div>
+                        <div class="form-label">
+                            <label>Birth Date</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-birthday-cake"></span>
+                            <input type="date" name="birth_date" {% if last_name %}value="{{birth_date}}"{% endif %} required>
+                        </div>
+                        <div class="form-label">
+                            <label>User Name</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-user"></span>
+                            <input type="text" name="username" {% if last_name %}value="{{username}}"{% endif %} placeholder="username" required>
                         </div>
                         <div class="form-label">
                             <label>Email:</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-envelope"></span>
-                            <input type="email" name="email" {% if email %}value="{{email}}"{% endif %} placeholder="your_email@email.com" required>
+                            <input type="email" name="email" {% if email %}value="{{email}}"{% endif %} placeholder="email" required>
                         </div>
                         <div class="form-label">
                             <label>Password:</label>
                         </div>
                         <div class="form-input">
                             <span class="fa fa-lock"></span>
-                            <input type="password" name="password" maxlength="12" placeholder="your account password" required>
+                            <input type="password" name="password" maxlength="12" placeholder="password" required>
+                        </div>
+                        <div class="form-label">
+                            <label>Confirm Password:</label>
+                        </div>
+                        <div class="form-input">
+                            <span class="fa fa-lock"></span>
+                            <input type="password" name="confirm_password" maxlength="12" placeholder="confirm password" required>
                         </div>
                         <div class="form-message-error">
                         {% if message_error %}

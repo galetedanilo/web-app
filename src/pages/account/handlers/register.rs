@@ -16,7 +16,7 @@ use crate::pages::account::actions::{
 use crate::pages::account::forms::AccountForm;
 use crate::pages::account::responses::AccountError;
 
-use crate::utils::helper_get_error_messages_validate;
+use crate::utils::helper_field_error_message_validate;
 
 pub async fn account_register_form_handler(template: web::Data<Tera>) -> Result<HttpResponse, Error> {
 
@@ -59,6 +59,8 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
                             context.insert("title", "Create New Account");
                             context.insert("first_name", form.first_name.trim());
                             context.insert("last_name", form.last_name.trim());
+                            context.insert("birth_date", form.birth_date.trim());
+                            context.insert("username", form.username.trim());
                             context.insert("email", form.email.trim());
 
                             context.insert("message_error", &vec!["This email address has been taken by another account."]);
@@ -77,11 +79,13 @@ pub async fn account_register_handler(form: web::Form<AccountForm>, pool: web::D
         },
         Err(err) => {
 
-            let err_resp = helper_get_error_messages_validate(err);
+            let err_resp = helper_field_error_message_validate(err);
 
             context.insert("title", "Create New Account");
             context.insert("first_name", form.first_name.trim());
             context.insert("last_name", form.last_name.trim());
+            context.insert("birth_date", form.birth_date.trim());
+            context.insert("username", form.username.trim());
             context.insert("email", form.email.trim());
 
             context.insert("message_error", &err_resp);
@@ -142,7 +146,7 @@ pub async fn account_activate_expired_handler(form: web::Form<EmailForm>, pool: 
             }
         },
         Err(err) => {
-            let err_resp = helper_get_error_messages_validate(err);
+            let err_resp = helper_field_error_message_validate(err);
 
             context.insert("title", "Account Activation Update");
             context.insert("message_error", &err_resp);
